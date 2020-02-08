@@ -10,6 +10,9 @@ namespace MyBrokenPage.UI.Controllers
     [Controller]
     public class AccountsController : Controller
     {
+        [ViewData]
+        public string Title { get { return PageTitles.LOGIN; } }
+
         private readonly IUserBll _userBll;
 
         public AccountsController(IUserBll userBll)
@@ -17,13 +20,13 @@ namespace MyBrokenPage.UI.Controllers
             _userBll = userBll;
         }
 
-        [HttpGet]
+        [HttpGet("login")]
         public IActionResult Login()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public IActionResult Login(UserLoginViewModel userLoginViewModel)
         {
             if (!ModelState.IsValid)

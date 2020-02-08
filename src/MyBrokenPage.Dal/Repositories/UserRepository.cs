@@ -11,7 +11,7 @@ namespace MyBrokenPage.Dal.Repositories
 
         public bool IsUsernameMatchingPassword(string username, string password)
         {
-            var query = $"SELECT * FROM dbo.Users WHERE Username = {username} and Password = {password}";
+            var query = $"SELECT * FROM dbo.Users WHERE Username = '{username}' and Password = '{password}'";
             var result = _entities.FromSqlRaw(query)
                                   .FirstOrDefault();
 

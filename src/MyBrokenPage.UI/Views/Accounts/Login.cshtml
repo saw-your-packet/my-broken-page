@@ -1,7 +1,47 @@
-﻿
-@{
-    ViewData["Title"] = "Login";
-}
-
+﻿@model UserLoginViewModel
 <h1>Login</h1>
 
+<form role="form" method="post" class="form-horizontal" asp-action="Login" asp-controller="Accounts">
+    <div class="row">
+        <div class="form-group">
+            <label asp-for="Username" class="control-label col-lg-2"></label>
+            <div class="col-lg-10">
+                <input asp-for="Username" class="form-control" autofocus id="login-username-input" />
+                <span asp-validation-for="Username"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group">
+            <label asp-for="Password" class="col-lg-2 control-label"></label>
+            <div class="col-lg-10">
+                <input asp-for="Password" type="password" class="form-control" id="login-password-input" />
+                <span asp-validation-for="Password"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-12">
+            <div class="col-lg-3 col-lg-offset-5">
+                <input type="submit" value="Login" class="btn btn-primary form-control" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="smss-window">
+    <pre>
+        <code class="sql">SELECT * FROM Users
+WHERE Username = '' and Password = ''
+        </code>
+    </pre>
+</div>
+
+@section Scripts{
+    <link rel="stylesheet" href="~/lib/highlight.js/styles/vs.min.css">
+    <script src="~/lib/highlight.js/highlight.min.js"></script>
+    <script src="~/lib/highlight.js/languages/sql.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="~/js/constants.js"></script>
+    <script src="~/js/login.js"></script>
+}

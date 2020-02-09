@@ -10,7 +10,7 @@ namespace MyBrokenPage.Bll.Converters
             return new UserModel
             {
                 Username = user.Username,
-                Password = user.Password
+                Role = user.Role.ToRoleModel()
             };
         }
     }

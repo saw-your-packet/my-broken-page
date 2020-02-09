@@ -1,4 +1,5 @@
 ﻿using MyBrokenPage.Bll.Contracts;
+using MyBrokenPage.Bll.Converters;
 using MyBrokenPage.Dal.Contracts;
 using MyBrokenPage.Models;
 
@@ -13,14 +14,16 @@ namespace MyBrokenPage.Bll.Logic
             _userRepository = userRepository;
         }
 
-        public bool VerifyCredentials(UserModel userModel)
+        public UserModel RetrieveUserByCredentials(UserLoginModel userLoginModel)
         {
-            if(userModel == null)
+            if (userLoginModel == null)
             {
-                return false;
+                return null;
             }
 
-            return _userRepository.IsUsernameMatchingPassword(userModel.Username, userModel.Password);
+            var user = _userRepository.GetUserByCredentials(userLoginModel.Username, userLoginModel.Password);
+
+            return user?.ToUserModel();
         }
     }
 }

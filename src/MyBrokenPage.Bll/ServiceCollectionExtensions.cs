@@ -6,7 +6,7 @@ namespace MyBrokenPage.Bll
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddServiceCollectionBll(this IServiceCollection services)
+        public static IServiceCollection AddMyBrokenPageBll(this IServiceCollection services)
         {
             services.AddScoped<IUserBll, UserBll>();
 

@@ -1,9 +1,9 @@
 ﻿namespace MyBrokenPage.Models
 {
-    public class UserModel
+    public class UserLoginModel
     {
         public string Username { get; set; }
 
-        public RoleModel Role { get; set; }
+        public string Password { get; set; }
     }
 }

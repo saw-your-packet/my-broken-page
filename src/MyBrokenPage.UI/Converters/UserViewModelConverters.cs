@@ -5,9 +5,9 @@ namespace MyBrokenPage.UI.Converters
 {
     public static class UserViewModelConverters
     {
-        public static UserModel ToUserModel(this UserLoginViewModel userLoginViewModel)
+        public static UserLoginModel ToUserLoginModel(this UserLoginViewModel userLoginViewModel)
         {
-            return new UserModel
+            return new UserLoginModel
             {
                 Username = userLoginViewModel.Username,
                 Password = userLoginViewModel.Password

@@ -9,13 +9,13 @@ namespace MyBrokenPage.Dal.Repositories
     {
         public UserRepository(MyBrokenPageContext myPageContext) : base(myPageContext) { }
 
-        public bool IsUsernameMatchingPassword(string username, string password)
+        public User GetUserByCredentials(string username, string password)
         {
             var query = $"SELECT * FROM dbo.Users WHERE Username = '{username}' and Password = '{password}'";
-            var result = _entities.FromSqlRaw(query)
-                                  .FirstOrDefault();
 
-            return result != null;
+            return _entities.FromSqlRaw(query)
+                            .Include(x => x.Role)
+                            .FirstOrDefault();
         }
     }
 }

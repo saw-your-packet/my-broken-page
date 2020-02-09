@@ -1,49 +1,57 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyBrokenPage.UI.Converters;
-using MyBrokenPage.UI.Utils;
+using MyBrokenPage.UI.Utils.Constants;
 using MyBrokenPage.Bll.Contracts;
 using MyBrokenPage.UI.ViewModels;
+using MyBrokenPage.UI.Utils;
+using System.Threading.Tasks;
 
 namespace MyBrokenPage.UI.Controllers
 {
-    [Route("")]
+    [Route(Routes.ACCOUNTS_CONTROLLER)]
     [Controller]
     public class AccountsController : Controller
     {
         [ViewData]
-        public string Title { get { return PageTitles.LOGIN; } }
+        public string Title => PageTitles.LOGIN;
 
         private readonly IUserBll _userBll;
+        private readonly AuthenticationHelper _authenticationHandler;
 
-        public AccountsController(IUserBll userBll)
+        public AccountsController(IUserBll userBll, AuthenticationHelper authenticationHandler)
         {
             _userBll = userBll;
+            _authenticationHandler = authenticationHandler;
         }
 
-        [HttpGet("login")]
+        [HttpGet(Routes.ACCOUNTS_CONTROLLER_LOGIN)]
         public IActionResult Login()
         {
             return View();
         }
 
-        [HttpPost("login")]
-        public IActionResult Login(UserLoginViewModel userLoginViewModel)
+        [HttpPost(Routes.ACCOUNTS_CONTROLLER_LOGIN)]
+        public async Task<IActionResult> Login(UserLoginViewModel userLoginViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return View(userLoginViewModel);
             }
 
-            var userModel = userLoginViewModel.ToUserModel();
+            var userLoginModel = userLoginViewModel.ToUserLoginModel();
 
-            var loginResult = _userBll.VerifyCredentials(userModel);
+            var userModel = _userBll.RetrieveUserByCredentials(userLoginModel);
 
-            if (loginResult == false)
+            if (userModel == null)
             {
-                return Unauthorized(ErrorMessages.LOGIN_INVALID_CREDENTIALS);
+                ModelState.AddModelError(nameof(UserLoginViewModel.Password), ErrorMessages.LOGIN_INVALID_CREDENTIALS);
+
+                return View(userLoginViewModel);
             }
 
-            return Ok(SuccessMessages.LOGIN_COMPLETED);
+            await _authenticationHandler.SignIn(userModel);
+
+            return RedirectToAction(nameof(FeedController.Index), nameof(FeedController).Replace("Controller", string.Empty));
         }
     }
 }

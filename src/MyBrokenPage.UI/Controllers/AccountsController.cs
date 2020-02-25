@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyBrokenPage.UI.Converters;
-using MyBrokenPage.UI.Utils.Constants;
+using MyBrokenPage.UI.Constants;
 using MyBrokenPage.Bll.Contracts;
 using MyBrokenPage.UI.ViewModels;
-using MyBrokenPage.UI.Utils;
+using MyBrokenPage.UI.Helpers;
 using System.Threading.Tasks;
 
 namespace MyBrokenPage.UI.Controllers

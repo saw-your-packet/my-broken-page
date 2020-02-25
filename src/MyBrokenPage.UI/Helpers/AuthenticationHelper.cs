@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace MyBrokenPage.UI.Utils
+namespace MyBrokenPage.UI.Helpers
 {
     public class AuthenticationHelper
     {

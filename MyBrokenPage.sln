@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBrokenPage.Models", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBrokenPage.UI", "src\MyBrokenPage.UI\MyBrokenPage.UI.csproj", "{86BD07E1-1D57-49E7-902C-BF0A4B52151B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBrokenPage.Dal.Design", "src\MyBrokenPage.Dal.Design\MyBrokenPage.Dal.Design.csproj", "{9AB7DECE-3789-4E34-A4DC-8702E71B5CBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBrokenPage.Dal.Design", "src\MyBrokenPage.Dal.Design\MyBrokenPage.Dal.Design.csproj", "{9AB7DECE-3789-4E34-A4DC-8702E71B5CBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

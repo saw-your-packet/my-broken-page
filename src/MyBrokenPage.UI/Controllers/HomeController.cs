@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyBrokenPage.UI.Utils.Constants;
+using MyBrokenPage.UI.Constants;
 
 namespace MyBrokenPage.UI.Controllers
 {

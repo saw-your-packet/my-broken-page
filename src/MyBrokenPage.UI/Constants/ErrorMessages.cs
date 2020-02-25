@@ -1,4 +1,4 @@
-﻿namespace MyBrokenPage.UI.Utils.Constants
+﻿namespace MyBrokenPage.UI.Constants
 {
     public static class ErrorMessages
     {

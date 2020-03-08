@@ -7,6 +7,7 @@
 
         public const string ACCOUNTS_CONTROLLER = "";
         public const string ACCOUNTS_CONTROLLER_LOGIN = "login";
+        public const string ACCOUNTS_CONTROLLER_LOGOUT = "logout";
 
         public const string FEED_CONTROLLER = "feed";
         public const string FEED_CONTROLLER_INDEX = "";

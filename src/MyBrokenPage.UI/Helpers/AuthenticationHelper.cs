@@ -46,5 +46,10 @@ namespace MyBrokenPage.UI.Helpers
                 ExpiresUtc = DateTimeOffset.UtcNow.AddHours(6)
             };
         }
+
+        public async Task SignOut()
+        {
+            await _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        }
     }
 }

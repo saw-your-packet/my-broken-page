@@ -53,5 +53,18 @@ namespace MyBrokenPage.UI.Controllers
 
             return RedirectToAction(nameof(FeedController.Index), nameof(FeedController).Replace("Controller", string.Empty));
         }
+
+        [HttpGet(Routes.ACCOUNTS_CONTROLLER_LOGOUT)]
+        public async Task<IActionResult> Logout()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+
+            await _authenticationHandler.SignOut();
+
+            return RedirectToAction(nameof(Login));
+        }
     }
 }

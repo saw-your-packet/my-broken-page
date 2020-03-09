@@ -6,14 +6,14 @@ namespace MyBrokenPage.Dal.Repositories
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class, new()
     {
-        protected MyBrokenPageContext _myPageContext;
+        protected MyBrokenPageContext _myBrokenPageContext;
 
         protected DbSet<T> _entities;
 
-        public GenericRepository(MyBrokenPageContext myPageContext)
+        public GenericRepository(MyBrokenPageContext myBrokenPageContext)
         {
-            _myPageContext = myPageContext;
-            _entities = _myPageContext.Set<T>();
+            _myBrokenPageContext = myBrokenPageContext;
+            _entities = _myBrokenPageContext.Set<T>();
         }
 
         public void Add(T entity)
@@ -38,7 +38,7 @@ namespace MyBrokenPage.Dal.Repositories
 
         public void SaveChanges()
         {
-            _myPageContext.SaveChanges(true);
+            _myBrokenPageContext.SaveChanges(true);
         }
     }
 }

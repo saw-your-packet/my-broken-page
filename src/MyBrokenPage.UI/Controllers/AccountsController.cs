@@ -5,6 +5,8 @@ using MyBrokenPage.Bll.Contracts;
 using MyBrokenPage.UI.ViewModels;
 using MyBrokenPage.UI.Helpers;
 using System.Threading.Tasks;
+using System.Linq;
+using MyBrokenPage.UI.Extensions;
 
 namespace MyBrokenPage.UI.Controllers
 {
@@ -13,12 +15,14 @@ namespace MyBrokenPage.UI.Controllers
     public class AccountsController : Controller
     {
         private readonly IUserBll _userBll;
+        private readonly ISecurityQuestionBll _securityQuestionBll;
         private readonly AuthenticationHelper _authenticationHandler;
 
-        public AccountsController(IUserBll userBll, AuthenticationHelper authenticationHandler)
+        public AccountsController(IUserBll userBll, ISecurityQuestionBll securityQuestionBll, AuthenticationHelper authenticationHandler)
         {
             _userBll = userBll;
             _authenticationHandler = authenticationHandler;
+            _securityQuestionBll = securityQuestionBll;
         }
 
         [HttpGet(Routes.ACCOUNTS_CONTROLLER_LOGIN)]
@@ -67,7 +71,14 @@ namespace MyBrokenPage.UI.Controllers
         [HttpGet(Routes.ACCOUNTS_CONTROLLER_REGISTER)]
         public IActionResult Register()
         {
-            return View();
+            var securityQuestions = _securityQuestionBll.GetSecurityQuestions();
+            var userRegisterViewModel = new UserRegisterViewModel
+            {
+                SecurityAnswers = securityQuestions.Select(x => x.ToUserSecurityAnswerViewModel())
+                                                   .ToList()
+            };
+
+            return View(userRegisterViewModel);
         }
     }
 }

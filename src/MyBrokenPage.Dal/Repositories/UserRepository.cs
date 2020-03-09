@@ -7,7 +7,7 @@ namespace MyBrokenPage.Dal.Repositories
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
-        public UserRepository(MyBrokenPageContext myPageContext) : base(myPageContext) { }
+        public UserRepository(MyBrokenPageContext myBrokenPageContext) : base(myBrokenPageContext) { }
 
         public User GetUserByCredentials(string username, string password)
         {

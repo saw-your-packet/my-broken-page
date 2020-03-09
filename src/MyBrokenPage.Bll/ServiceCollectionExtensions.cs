@@ -9,6 +9,7 @@ namespace MyBrokenPage.Bll
         public static IServiceCollection AddMyBrokenPageBll(this IServiceCollection services)
         {
             services.AddScoped<IUserBll, UserBll>();
+            services.AddScoped<ISecurityQuestionBll, SecurityQuestionBll>();
 
             return services;
         }

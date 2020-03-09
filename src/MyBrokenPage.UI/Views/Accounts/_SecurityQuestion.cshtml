@@ -1,0 +1,10 @@
+﻿@model UserSecurityAnswerViewModel
+
+<div class="row">
+    <div class="form-group">
+        <label class="custom-control-label col-lg-2">@Model.SecurityQuestion.Question</label>
+        <div class="col-lg-10">
+            <input asp-for="Answer" class="form-control"/>
+        </div>
+    </div>
+</div>

@@ -5,5 +5,8 @@
         public const string HOME = "Home";
 
         public const string LOGIN = "Login";
+        public const string REGISTER = "Register";
+
+        public const string FEED = "Feed";
     }
 }

@@ -12,9 +12,6 @@ namespace MyBrokenPage.UI.Controllers
     [Controller]
     public class AccountsController : Controller
     {
-        [ViewData]
-        public string Title => PageTitles.LOGIN;
-
         private readonly IUserBll _userBll;
         private readonly AuthenticationHelper _authenticationHandler;
 
@@ -65,6 +62,12 @@ namespace MyBrokenPage.UI.Controllers
             await _authenticationHandler.SignOut();
 
             return RedirectToAction(nameof(Login));
+        }
+
+        [HttpGet(Routes.ACCOUNTS_CONTROLLER_REGISTER)]
+        public IActionResult Register()
+        {
+            return View();
         }
     }
 }

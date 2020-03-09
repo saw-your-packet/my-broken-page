@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyBrokenPage.Dal.Extensions;
 using MyBrokenPage.Dal.Models;
 
 namespace MyBrokenPage.Dal
@@ -9,18 +10,23 @@ namespace MyBrokenPage.Dal
 
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<SecurityQuestion> SecurityQuestions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Role>().HasData(
-                new Role { Id = 1, Name = "admin" },
-                new Role { Id = 2, Name = "user" }
-                );
+            modelBuilder.Entity<UserSecurityAnswer>().HasKey(ua => new { ua.UserId, ua.SecurityQuestionId });
 
-            modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Username = "admin", Password = "admin", RoleId = 1 },
-                new User { Id = 2, Username = "me", Password = "123456", RoleId = 2 }
-                );
+            modelBuilder.Entity<UserSecurityAnswer>()
+                .HasOne(ua => ua.User)
+                .WithMany(u => u.SecurityAnswers)
+                .HasForeignKey(ua => ua.UserId);
+
+            modelBuilder.Entity<UserSecurityAnswer>()
+                .HasOne(ua => ua.SecurityQuestion)
+                .WithMany(q => q.SecurityAnswers)
+                .HasForeignKey(ua => ua.SecurityQuestionId);
+
+            modelBuilder.AddInitialData();
         }
     }
 }

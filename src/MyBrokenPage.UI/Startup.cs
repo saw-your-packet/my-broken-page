@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyBrokenPage.Bll;
-using MyBrokenPage.Dal;
+using MyBrokenPage.Dal.Extensions;
 using MyBrokenPage.UI.Extensions;
 
 namespace MyBrokenPage.UI

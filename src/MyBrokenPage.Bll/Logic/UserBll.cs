@@ -25,5 +25,10 @@ namespace MyBrokenPage.Bll.Logic
 
             return user?.ToUserModel();
         }
+
+        public void CreateAccount(UserRegisterModel userRegisterModel)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

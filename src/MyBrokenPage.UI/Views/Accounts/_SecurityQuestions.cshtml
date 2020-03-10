@@ -1,0 +1,15 @@
+﻿@model ICollection<UserSecurityAnswerViewModel>
+
+@{
+    for (int i = 0; i < Model.Count; i++)
+    {
+        var item = Model.ElementAt(i);
+        var identifier = $"SecurityAnswers[{i}]";
+        var id = identifier + ".Answer";
+
+        <div class="form-group">
+            <label for="@identifier">@item.SecurityQuestion.Question</label>
+            <input id="@id" class="form-control" placeholder="Answer" name="@id"/>
+        </div>
+    }
+}

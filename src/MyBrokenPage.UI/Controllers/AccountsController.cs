@@ -71,6 +71,11 @@ namespace MyBrokenPage.UI.Controllers
         [HttpGet(Routes.ACCOUNTS_CONTROLLER_REGISTER)]
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).Replace("Controller", string.Empty));
+            }
+
             var securityQuestions = _securityQuestionBll.GetSecurityQuestions();
             var userRegisterViewModel = new UserRegisterViewModel
             {
@@ -79,6 +84,19 @@ namespace MyBrokenPage.UI.Controllers
             };
 
             return View(userRegisterViewModel);
+        }
+
+        [HttpPost(Routes.ACCOUNTS_CONTROLLER_REGISTER)]
+        public IActionResult Register(UserRegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            _userBll.CreateAccount(model.ToUserRegisterModel());
+
+            return RedirectToAction(nameof(Login));
         }
     }
 }

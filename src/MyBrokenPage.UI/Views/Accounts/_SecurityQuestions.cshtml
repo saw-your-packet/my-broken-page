@@ -3,13 +3,15 @@
 @{
     for (int i = 0; i < Model.Count; i++)
     {
-        var item = Model.ElementAt(i);
+        var question = Model.ElementAt(i).SecurityQuestion.Question;
         var identifier = $"SecurityAnswers[{i}]";
-        var id = identifier + ".Answer";
+        var idAnswer = identifier + ".Answer";
+        var idQuestion = identifier + ".SecurityQuestion.Question";
 
         <div class="form-group">
-            <label for="@identifier">@item.SecurityQuestion.Question</label>
-            <input id="@id" class="form-control" placeholder="Answer" name="@id"/>
+            <label for="@identifier">@question</label>
+            <input id="@idAnswer" class="form-control" placeholder="Answer" name="@idAnswer" />
+            <input id="@idQuestion" type="hidden" name="@idQuestion" value="@question"/>
         </div>
     }
 }

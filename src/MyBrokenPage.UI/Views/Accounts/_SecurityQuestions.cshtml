@@ -3,15 +3,17 @@
 @{
     for (int i = 0; i < Model.Count; i++)
     {
-        var question = Model.ElementAt(i).SecurityQuestion.Question;
+        var securityQuestion = Model.ElementAt(i).SecurityQuestion;
         var identifier = $"SecurityAnswers[{i}]";
-        var idAnswer = identifier + ".Answer";
-        var idQuestion = identifier + ".SecurityQuestion.Question";
+        var answerIdentifier = identifier + ".Answer";
+        var questionIdentifier = identifier + ".SecurityQuestion.Question";
+        var questionIdIdentifier = identifier + ".SecurityQuestion.Id";
 
         <div class="form-group">
-            <label for="@identifier">@question</label>
-            <input id="@idAnswer" class="form-control" placeholder="Answer" name="@idAnswer" />
-            <input id="@idQuestion" type="hidden" name="@idQuestion" value="@question"/>
+            <label for="@identifier">@securityQuestion.Question</label>
+            <input id="@answerIdentifier" class="form-control" placeholder="Answer" name="@answerIdentifier" />
+            <input id="@questionIdentifier" type="hidden" name="@questionIdentifier" value="@securityQuestion.Question"/>
+            <input id="@questionIdIdentifier" type="hidden" name="@questionIdIdentifier" value="@securityQuestion.Id"/>
         </div>
     }
 }

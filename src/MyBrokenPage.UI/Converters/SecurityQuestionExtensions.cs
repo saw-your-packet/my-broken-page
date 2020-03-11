@@ -17,7 +17,7 @@ namespace MyBrokenPage.UI.Converters
         {
             return new UserSecurityAnswerModel
             {
-                Question = userSecurityAnswerViewModel.SecurityQuestion?.Question,
+                SecurtityQuestion = userSecurityAnswerViewModel.SecurityQuestion.ToSecurityQuestionModel(),
                 Answer = userSecurityAnswerViewModel.Answer
             };
         }

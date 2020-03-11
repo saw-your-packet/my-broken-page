@@ -6,5 +6,6 @@ namespace MyBrokenPage.Dal.Contracts
     public interface IUserRepository : IGenericRepository<User>
     {
         User GetUserByCredentials(string username, string password);
+        bool IsUsernameUsed(string username);
     }
 }

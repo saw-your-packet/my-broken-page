@@ -1,5 +1,6 @@
 ﻿using MyBrokenPage.Bll.Contracts;
 using MyBrokenPage.Bll.Converters;
+using MyBrokenPage.Bll.Exceptions;
 using MyBrokenPage.Dal.Contracts;
 using MyBrokenPage.Models;
 
@@ -28,7 +29,18 @@ namespace MyBrokenPage.Bll.Logic
 
         public void CreateAccount(UserRegisterModel userRegisterModel)
         {
-            throw new System.NotImplementedException();
+            var isUsernameUsed = _userRepository.IsUsernameUsed(userRegisterModel.Username);
+
+            if (isUsernameUsed)
+            {
+                throw new ExceptionResourceConflict("Username used");
+            }
+
+            userRegisterModel.Password = PasswordManager.HashPassword(userRegisterModel.Password);
+            var user = userRegisterModel.ToUser();
+
+            _userRepository.Add(user);
+            _userRepository.SaveChanges();
         }
     }
 }

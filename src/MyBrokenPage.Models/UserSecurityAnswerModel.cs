@@ -4,7 +4,7 @@
     {
         public int UserId { get; set; }
 
-        public string Question { get; set; }
+        public SecurityQuestionModel SecurtityQuestion { get; set; }
 
         public string Answer { get; set; }
     }

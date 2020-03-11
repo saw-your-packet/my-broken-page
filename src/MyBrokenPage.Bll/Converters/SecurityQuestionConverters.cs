@@ -13,5 +13,14 @@ namespace MyBrokenPage.Bll.Converters
                 Question = securityQuestion.Question
             };
         }
+
+        public static SecurityQuestion ToSecurityQuestion(this SecurityQuestionModel securityQuestionModel)
+        {
+            return new SecurityQuestion
+            {
+                Id = securityQuestionModel.Id,
+                Question = securityQuestionModel.Question,
+            };
+        }
     }
 }

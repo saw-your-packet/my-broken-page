@@ -1,5 +1,6 @@
 ﻿using MyBrokenPage.Dal.Models;
 using MyBrokenPage.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MyBrokenPage.Bll.Converters
@@ -15,14 +16,14 @@ namespace MyBrokenPage.Bll.Converters
             };
         }
 
-        public static User ToUser(this UserRegisterModel userRegisterModel)
+        public static User ToUser(this UserRegisterModel userRegisterModel, Role role, IEnumerable<SecurityQuestion> securityQuestions)
         {
             return new User
             {
                 Username = userRegisterModel.Username,
                 Password = userRegisterModel.Password,
-                Role = new Role { Id = 2 },
-                SecurityAnswers = userRegisterModel.SecurityAnswers.Select(x => x.ToUserSecurityAnswer())
+                Role = role,
+                SecurityAnswers = userRegisterModel.SecurityAnswers.ConvertAndMapSecurityAnswers(securityQuestions)
                                                                    .ToList()
             };
         }

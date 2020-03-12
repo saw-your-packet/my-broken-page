@@ -9,15 +9,6 @@ namespace MyBrokenPage.Dal.Repositories
     {
         public UserRepository(MyBrokenPageContext myBrokenPageContext) : base(myBrokenPageContext) { }
 
-        public new void Add(User user)
-        {
-            _myBrokenPageContext.Attach(user.Role);
-
-            user.SecurityAnswers.Select(x => _myBrokenPageContext.Attach(x.SecurityQuestion));
-
-            _myBrokenPageContext.Add(user);
-        }
-
         public User GetUserByCredentials(string username, string password)
         {
             var query = $"SELECT * FROM dbo.Users WHERE Username = '{username}' and Password = '{password}'";

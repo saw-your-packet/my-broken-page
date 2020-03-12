@@ -12,6 +12,7 @@ namespace MyBrokenPage.Dal.Extensions
             services.AddDbContext<MyBrokenPageContext>(context => context.UseSqlServer(connectionString));
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ISecurityQuestionRepository, SecurityQuestionRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
 
             return services;
         }

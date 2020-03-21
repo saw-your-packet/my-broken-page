@@ -5,10 +5,10 @@ using MyBrokenPage.UI.Constants;
 namespace MyBrokenPage.UI.Controllers
 {
     [Authorize]
-    [Route(Routes.FEED_CONTROLLER)]
+    [Route(Routes.FeedController)]
     public class FeedController : Controller
     {
-        [HttpGet(Routes.FEED_CONTROLLER_INDEX)]
+        [HttpGet(Routes.FeedControllerIndex)]
         public IActionResult Index()
         {
             return View();

@@ -13,6 +13,7 @@ namespace MyBrokenPage.Dal.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ISecurityQuestionRepository, SecurityQuestionRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IUserSecurityAnswerRepository, UserSecurityAnswerRepository>();
 
             return services;
         }

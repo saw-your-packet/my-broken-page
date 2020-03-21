@@ -2,8 +2,12 @@
 {
     public static class ErrorMessages
     {
-        public const string FIELD_EMPTY = "Field must not be empty";
+        public const string FieldEmpty = "Field must not be empty";
 
-        public const string LOGIN_INVALID_CREDENTIALS = "Username/Password doesn't match";
+        public const string LoginInvalidCredentials = "Username/Password doesn't match";
+
+        public const string PasswordsDoesntMatch = "Passwords not matching";
+
+        public const string SecurityAnsweredWrong = "Answers are not matching.";
     }
 }

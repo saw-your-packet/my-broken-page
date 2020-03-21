@@ -13,7 +13,7 @@
                 @{
                     if (User.Identity.IsAuthenticated)
                     {
-                        if (User.IsInRole(ApplicationRoles.ADMIN))
+                        if (User.IsInRole(ApplicationRoles.Admin))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Administration" asp-action="Index">Dashboard</a>

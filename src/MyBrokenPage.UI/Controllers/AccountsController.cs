@@ -6,11 +6,10 @@ using MyBrokenPage.UI.ViewModels;
 using MyBrokenPage.UI.Helpers;
 using System.Threading.Tasks;
 using System.Linq;
-using MyBrokenPage.UI.Extensions;
 
 namespace MyBrokenPage.UI.Controllers
 {
-    [Route(Routes.ACCOUNTS_CONTROLLER)]
+    [Route(Routes.AccountsController)]
     [Controller]
     public class AccountsController : Controller
     {
@@ -25,13 +24,13 @@ namespace MyBrokenPage.UI.Controllers
             _securityQuestionBll = securityQuestionBll;
         }
 
-        [HttpGet(Routes.ACCOUNTS_CONTROLLER_LOGIN)]
+        [HttpGet(Routes.AccountsControllerLogin)]
         public IActionResult Login()
         {
             return View();
         }
 
-        [HttpPost(Routes.ACCOUNTS_CONTROLLER_LOGIN)]
+        [HttpPost(Routes.AccountsControllerLogin)]
         public async Task<IActionResult> Login(UserLoginViewModel userLoginViewModel)
         {
             if (!ModelState.IsValid)
@@ -45,39 +44,37 @@ namespace MyBrokenPage.UI.Controllers
 
             if (userModel == null)
             {
-                ModelState.AddModelError(nameof(UserLoginViewModel.Password), ErrorMessages.LOGIN_INVALID_CREDENTIALS);
+                ModelState.AddModelError(nameof(UserLoginViewModel.Password), ErrorMessages.LoginInvalidCredentials);
 
                 return View(userLoginViewModel);
             }
 
             await _authenticationHandler.SignIn(userModel);
 
-            return RedirectToAction(nameof(FeedController.Index), nameof(FeedController).Replace("Controller", string.Empty));
+            return RedirectToAction(Names.FeedControllerIndex, Names.Feed);
         }
 
-        [HttpGet(Routes.ACCOUNTS_CONTROLLER_LOGOUT)]
+        [HttpGet(Routes.AccountsControllerLogout)]
         public async Task<IActionResult> Logout()
         {
-            if (!User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction(nameof(Login));
+                await _authenticationHandler.SignOut();
             }
 
-            await _authenticationHandler.SignOut();
-
-            return RedirectToAction(nameof(Login));
+            return RedirectToAction(Names.AccountsControllerLogin);
         }
 
-        [HttpGet(Routes.ACCOUNTS_CONTROLLER_REGISTER)]
+        [HttpGet(Routes.AccountsControllerRegister)]
         public IActionResult Register()
         {
             if (User.Identity.IsAuthenticated)
             {
-                return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).Replace("Controller", string.Empty));
+                return RedirectToAction(Names.HomeControllerIndex, Names.Home);
             }
 
             var securityQuestions = _securityQuestionBll.GetSecurityQuestions();
-            var userRegisterViewModel = new UserRegisterViewModel
+            var userRegisterViewModel = new UserCredentialsViewModel
             {
                 SecurityAnswers = securityQuestions.Select(x => x.ToUserSecurityAnswerViewModel())
                                                    .ToList()
@@ -86,17 +83,61 @@ namespace MyBrokenPage.UI.Controllers
             return View(userRegisterViewModel);
         }
 
-        [HttpPost(Routes.ACCOUNTS_CONTROLLER_REGISTER)]
-        public IActionResult Register(UserRegisterViewModel model)
+        [HttpPost(Routes.AccountsControllerRegister)]
+        public IActionResult Register(UserCredentialsViewModel userCredentialsViewModel)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View(userCredentialsViewModel);
             }
 
-            _userBll.CreateAccount(model.ToUserRegisterModel());
+            _userBll.CreateAccount(userCredentialsViewModel.ToUserCredentialsModel());
 
-            return RedirectToAction(nameof(Login));
+            return RedirectToAction(Names.AccountsControllerLogin);
+        }
+
+        [HttpGet(Routes.AccountsControllerForgotPassword)]
+        public IActionResult ForgotPassword()
+        {
+            var userResetPasswordModel = new UserCredentialsViewModel
+            {
+                SecurityAnswers = _securityQuestionBll.GetSecurityQuestions().Select(x => x.ToUserSecurityAnswerViewModel())
+                                                                             .ToList()
+            };
+
+            return View(userResetPasswordModel);
+        }
+
+        [HttpPost(Routes.AccountsControllerForgotPassword)]
+        public IActionResult ForgotPassword(UserCredentialsViewModel userCredentialsViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(userCredentialsViewModel);
+            }
+
+            var isResetSuccessfully = _userBll.ResetForgottenPassword(userCredentialsViewModel.ToUserCredentialsModel());
+
+            if (isResetSuccessfully)
+            {
+                return RedirectToAction(Names.AccountsControllerLogin);
+            }
+
+            ModelState.AddModelError(nameof(UserCredentialsViewModel.SecurityAnswers), ErrorMessages.SecurityAnsweredWrong);
+
+            return View(userCredentialsViewModel);
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [Route(Routes.AccountsControllerVerifyUsername)]
+        public IActionResult VerifyUsername(string username)
+        {
+            if (!_userBll.IsUsernameUsed(username))
+            {
+                return Json($"Username {username} not found.");
+            }
+
+            return Json(true);
         }
     }
 }

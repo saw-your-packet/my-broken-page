@@ -2,7 +2,7 @@
 {
     public static class ApplicationRoles
     {
-        public static string USER = "user";
-        public static string ADMIN = "admin";
+        public static string User = "user";
+        public static string Admin = "admin";
     }
 }

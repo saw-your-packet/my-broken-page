@@ -16,7 +16,7 @@ namespace MyBrokenPage.Bll.Converters
             };
         }
 
-        public static User ToUser(this UserRegisterModel userRegisterModel, Role role, IEnumerable<SecurityQuestion> securityQuestions)
+        public static User ToUser(this UserCredentialsModel userRegisterModel, Role role, IEnumerable<SecurityQuestion> securityQuestions)
         {
             return new User
             {

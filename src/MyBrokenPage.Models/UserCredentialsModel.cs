@@ -2,7 +2,7 @@
 
 namespace MyBrokenPage.Models
 {
-    public class UserRegisterModel
+    public class UserCredentialsModel
     {
         public string Username { get; set; }
 

@@ -2,6 +2,6 @@
 {
     public static class SuccessMessages
     {
-        public const string LOGIN_COMPLETED = "Login successfully done";
+        public const string LoginCompleted = "Login successfully done";
     }
 }

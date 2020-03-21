@@ -15,13 +15,13 @@ namespace MyBrokenPage.UI.Converters
             };
         }
 
-        public static UserRegisterModel ToUserRegisterModel(this UserRegisterViewModel userRegisterViewModel)
+        public static UserCredentialsModel ToUserCredentialsModel(this UserCredentialsViewModel userCredentialsViewModel)
         {
-            return new UserRegisterModel
+            return new UserCredentialsModel
             {
-                Username = userRegisterViewModel.Username,
-                Password = userRegisterViewModel.Password,
-                SecurityAnswers = userRegisterViewModel.SecurityAnswers.Select(x => x.ToUserSecurityAnswerModel())
+                Username = userCredentialsViewModel.Username,
+                Password = userCredentialsViewModel.Password,
+                SecurityAnswers = userCredentialsViewModel.SecurityAnswers.Select(x => x.ToUserSecurityAnswerModel())
                                                                        .ToList()
             };
         }

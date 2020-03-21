@@ -2,11 +2,12 @@
 {
     public static class PageTitles
     {
-        public const string HOME = "Home";
+        public const string Home = "Home";
 
-        public const string LOGIN = "Login";
-        public const string REGISTER = "Register";
+        public const string Login = "Login";
+        public const string Register = "Register";
+        public const string ForgotPassword = "Forgot Password";
 
-        public const string FEED = "Feed";
+        public const string Feed = "Feed";
     }
 }

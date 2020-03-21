@@ -22,7 +22,13 @@ namespace MyBrokenPage.Dal.Repositories
         {
             var query = $"SELECT * FROM dbo.Users WHERE Username = '{username}'";
 
-            return _entities.FromSqlRaw(query).Count() == 1;
+            return _entities.FromSqlRaw(query).FirstOrDefault() != null;
+        }
+
+        public User GetUserByUsername(string username)
+        {
+            return _entities.Where(user => user.Username == username)
+                            .FirstOrDefault();
         }
     }
 }

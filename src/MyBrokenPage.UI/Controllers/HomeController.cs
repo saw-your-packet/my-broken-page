@@ -3,10 +3,10 @@ using MyBrokenPage.UI.Constants;
 
 namespace MyBrokenPage.UI.Controllers
 {
-    [Route(Routes.HOME_CONTROLLER)]
+    [Route(Routes.HomeController)]
     public class HomeController : Controller
     {
-        [HttpGet(Routes.HOME_CONTROLLER_INDEX)]
+        [HttpGet(Routes.HomeControllerIndex)]
         public IActionResult Index()
         {
             return View();

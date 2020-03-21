@@ -32,6 +32,18 @@
         "languages/sql.min.js",
         "styles/vs.min.css"
       ]
+    },
+    {
+      "library": "jquery-validate@1.19.1",
+      "destination": "wwwroot/lib/jquery-validate/",
+      "files": [
+        "jquery.validate.min.js"
+      ]
     }
-  ]
+  ,
+{
+  "library": "jquery-validation-unobtrusive@3.2.11",
+  "destination": "wwwroot/lib/jquery-validation-unobtrusive/"
+}
+]
 }

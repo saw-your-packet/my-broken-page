@@ -7,5 +7,6 @@ namespace MyBrokenPage.Dal.Contracts
     {
         User GetUserByCredentials(string username, string password);
         bool IsUsernameUsed(string username);
+        User GetUserByUsername(string username);
     }
 }

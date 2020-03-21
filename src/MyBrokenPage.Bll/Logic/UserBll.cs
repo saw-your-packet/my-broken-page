@@ -12,12 +12,17 @@ namespace MyBrokenPage.Bll.Logic
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly ISecurityQuestionRepository _securityQuestionRepository;
+        private readonly IUserSecurityAnswerRepository _userSecurityAnswerRepository;
 
-        public UserBll(IUserRepository userRepository, IRoleRepository roleRepository, ISecurityQuestionRepository securityQuestionRepository)
+        public UserBll(IUserRepository userRepository,
+            IRoleRepository roleRepository,
+            ISecurityQuestionRepository securityQuestionRepository,
+            IUserSecurityAnswerRepository userSecurityAnswerRepository)
         {
             _userRepository = userRepository;
             _roleRepository = roleRepository;
             _securityQuestionRepository = securityQuestionRepository;
+            _userSecurityAnswerRepository = userSecurityAnswerRepository;
         }
 
         public UserModel RetrieveUserByCredentials(UserLoginModel userLoginModel)
@@ -33,9 +38,9 @@ namespace MyBrokenPage.Bll.Logic
             return user?.ToUserModel();
         }
 
-        public void CreateAccount(UserRegisterModel userRegisterModel)
+        public void CreateAccount(UserCredentialsModel userCredentialsModel)
         {
-            var isUsernameUsed = _userRepository.IsUsernameUsed(userRegisterModel.Username);
+            var isUsernameUsed = _userRepository.IsUsernameUsed(userCredentialsModel.Username);
 
             if (isUsernameUsed)
             {
@@ -44,7 +49,7 @@ namespace MyBrokenPage.Bll.Logic
 
             var securityQuestions = _securityQuestionRepository.GetAll();
             var allQuestionAreAnswered = securityQuestions.AsEnumerable().All(
-                questionDal => userRegisterModel.SecurityAnswers.Any(
+                questionDal => userCredentialsModel.SecurityAnswers.Any(
                     answerUI => answerUI.SecurtityQuestion.Question == questionDal.Question));
 
             if (!allQuestionAreAnswered)
@@ -59,11 +64,41 @@ namespace MyBrokenPage.Bll.Logic
                 throw new ExceptionResourceNotFound("Role not in databse.");
             }
 
-            userRegisterModel.Password = PasswordManager.HashPassword(userRegisterModel.Password);
-            var user = userRegisterModel.ToUser(role, securityQuestions);
+            userCredentialsModel.Password = PasswordManager.HashPassword(userCredentialsModel.Password);
+            var user = userCredentialsModel.ToUser(role, securityQuestions);
 
             _userRepository.Add(user);
             _userRepository.SaveChanges();
+        }
+
+        public bool IsUsernameUsed(string username)
+        {
+            return _userRepository.IsUsernameUsed(username);
+        }
+
+        public bool ResetForgottenPassword(UserCredentialsModel userCredentialsModel)
+        {
+            var user = _userRepository.GetUserByUsername(userCredentialsModel.Username);
+
+            if (user == null)
+            {
+                throw new ExceptionResourceNotFound("User not found.");
+            }
+
+            var userSecurityAnswers = _userSecurityAnswerRepository.GetAnswersOfUser(user.Id);
+            var isEligibleForPasswordReset = userSecurityAnswers.All(
+                answerDal => userCredentialsModel.SecurityAnswers.Any(
+                    answerBll => answerBll.SecurtityQuestion.Question == answerDal.SecurityQuestion.Question && answerBll.Answer == answerDal.Answer));
+
+            if (!isEligibleForPasswordReset)
+            {
+                return false;
+            }
+
+            user.Password = PasswordManager.HashPassword(userCredentialsModel.Password);
+            _userRepository.SaveChanges();
+
+            return true;
         }
     }
 }

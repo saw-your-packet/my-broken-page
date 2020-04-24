@@ -21,19 +21,23 @@ namespace MyBrokenPage.Dal.Repositories
                 new SqlParameter("@password", SqlDbType.NVarChar){Direction = ParameterDirection.Input, Value = password}
             };
 
-            bool isStoredprocedure = true;
+            bool isStoredprocedure = false;
             if (isStoredprocedure)
             {
                 var storedProcedureResult = _entities.FromSqlRaw("GetByCredentials @username, @password", parameters)
                                                      .ToList()
                                                      .FirstOrDefault();
-
-                var storedProcedureQuery = $"GetByCredentials {username}, {password}";
-                var storedProcedureResult2 = _entities.FromSqlRaw(storedProcedureQuery)
+              
+                var storedProcedureResult2 = _entities.FromSqlInterpolated($"GetByCredentials {username}, {password}")
                                                       .ToList()
                                                       .FirstOrDefault();
-
-                var storedProcedureResult3 = _entities.FromSqlInterpolated($"GetByCredentials {username}, {password}")
+              
+                var storedProcedureResult3 = _entities.FromSqlRaw("GetByCredentialsVuln @username, @password", parameters)
+                                                     .ToList()
+                                                     .FirstOrDefault();
+                
+                var storedProcedureQuery = $"GetByCredentials {username}, {password}";
+                var storedProcedureResult4 = _entities.FromSqlRaw(storedProcedureQuery)
                                                       .ToList()
                                                       .FirstOrDefault();
 
@@ -41,21 +45,24 @@ namespace MyBrokenPage.Dal.Repositories
             }
             else
             {
+                var user = _entities.Where(x => x.Username == username && x.Password == password)
+                                    .FirstOrDefault();
+
                 FormattableString query = $"SELECT * FROM dbo.Users WHERE Username = {username} and Password = {password}";
                 var queryFromResult = _entities.FromSqlInterpolated(query)
                                                .Include(x => x.Role)
                                                .FirstOrDefault();
+               
+                var query1 = "SELECT * FROM dbo.Users WHERE Username = @username and Password = @password";
+                var queryResultResult2 = _entities.FromSqlRaw(query1, parameters)
+                                                  .Include(x => x.Role)
+                                                  .FirstOrDefault();
 
-                var query1 = $"SELECT * FROM dbo.Users WHERE Username = '{username}' and Password = '{password}'";
-                var queryResultResult1 = _entities.FromSqlRaw(query1)
+                var query2 = $"SELECT * FROM dbo.Users WHERE Username = '{username}' and Password = '{password}'";
+                var queryResultResult1 = _entities.FromSqlRaw(query2)
                                                   .Include(x => x.Role)
                                                   .FirstOrDefault();
-               
-                var query2 = "SELECT * FROM dbo.Users WHERE Username = @username and Password = @password";
-                var queryResultResult2 = _entities.FromSqlRaw(query2, parameters)
-                                                  .Include(x => x.Role)
-                                                  .FirstOrDefault();
-               
+
                 return queryResultResult1;
             }
         }

@@ -1,5 +1,39 @@
-﻿@{ ViewBag.Title = PageTitles.Feed;}
+﻿@model SearchViewModel
+@{ ViewBag.Title = PageTitles.Feed;}
 
 <h1>Feed</h1>
 <h4>Username: @ViewData[nameof(FeedController.UsernameViewData)]</h4>
 <h4>Role: @ViewData[nameof(FeedController.RoleViewData)]</h4>
+
+
+<form class="form-horizontal" method="get" asp-action="@Names.FeedControllerIndex" asp-controller="@Names.Feed">
+    <div class="form-group clearfix">
+        <div class=" col-md-8">
+            <label class="control-label"> Search</label>
+            <input asp-for="SearchInput" class="form-control" />
+
+        </div>
+        <div class="col-md-2 search-div">
+            <input type="submit" class="btn btn-primary search-position" value="Search">
+        </div>
+
+    </div>
+</form>
+
+<div>
+    <p>Default/Handled By Framework: @Model.SearchInput</p>
+    <p>Safe/Encoded: @Model.SearchSafe</p>
+    <p>Unsafe:  @Html.Raw(Model.SearchInput)</p>
+    <p id="paragraph">
+        Unsafe JS Function:
+        
+    </p>
+</div>
+
+<script>
+    window.onload = function () {
+        let urlParams = new URLSearchParams(window.location.search);
+        let queryParam = urlParams.get('@nameof(Model.SearchInput)');
+        document.getElementById("paragraph").innerHTML += queryParam;
+    }
+</script>

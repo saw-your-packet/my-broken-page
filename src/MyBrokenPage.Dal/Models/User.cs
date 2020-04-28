@@ -18,5 +18,6 @@ namespace MyBrokenPage.Dal.Models
         public Role Role { get; set; }
 
         public ICollection<UserSecurityAnswer> SecurityAnswers { get; set; }
+        public ICollection<Post> Posts { get; set; }
     }
 }

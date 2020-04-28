@@ -45,7 +45,7 @@ namespace MyBrokenPage.UI
             app.UseStaticFiles();
             app.UseCookiePolicy(new CookiePolicyOptions
             {
-                MinimumSameSitePolicy = SameSiteMode.Lax
+                MinimumSameSitePolicy = SameSiteMode.None
             });
             app.UseAuthentication();
             app.UseRouting();

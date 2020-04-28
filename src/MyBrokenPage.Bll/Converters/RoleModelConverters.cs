@@ -7,7 +7,7 @@ namespace MyBrokenPage.Bll.Converters
     {
         public static RoleModel ToRoleModel(this Role role)
         {
-            return new RoleModel { Id = role.Id, Name = role.Name };
+            return role == null ? null : new RoleModel { Id = role.Id, Name = role.Name };
         }
     }
 }

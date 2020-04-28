@@ -14,6 +14,7 @@ namespace MyBrokenPage.Dal.Extensions
             services.AddScoped<ISecurityQuestionRepository, SecurityQuestionRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserSecurityAnswerRepository, UserSecurityAnswerRepository>();
+            services.AddScoped<IPostRepository, PostRepository>();
 
             return services;
         }

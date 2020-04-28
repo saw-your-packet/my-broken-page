@@ -29,6 +29,11 @@ namespace MyBrokenPage.Dal.Extensions
                 new UserSecurityAnswer { UserId = 2, SecurityQuestionId = 3, Answer = "royal cbc" }
                 );
 
+            modelBuilder.Entity<Post>().HasData(
+                new Post { Id = 1, Content = "Hi guys! This secure site is awesome!!", UserId = 2 },
+                new Post { Id = 2, Content = "I can post a lot of posts!", UserId = 2 }
+                );
+
             return modelBuilder;
         }
     }

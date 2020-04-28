@@ -14,6 +14,7 @@ namespace MyBrokenPage.UI.Extensions
                     .AddCookie(options =>
                     {
                         options.Cookie.Name = "MyBorkenPage.Auth";
+                        options.Cookie.SameSite = SameSiteMode.None;
                     });
             services.AddAuthorization();
             services.AddControllersWithViews();

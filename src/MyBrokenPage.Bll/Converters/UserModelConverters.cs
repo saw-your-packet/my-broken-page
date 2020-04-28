@@ -11,6 +11,7 @@ namespace MyBrokenPage.Bll.Converters
         {
             return new UserModel
             {
+                Id = user.Id,
                 Username = user.Username,
                 Role = user.Role.ToRoleModel()
             };

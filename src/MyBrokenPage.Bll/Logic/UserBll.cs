@@ -100,5 +100,16 @@ namespace MyBrokenPage.Bll.Logic
 
             return true;
         }
+
+        public UserModel GetByUsername(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                throw new ExceptionBusinessNotRespected();
+            }
+
+            return _userRepository.GetUserByUsername(username)
+                                  .ToUserModel();
+        }
     }
 }

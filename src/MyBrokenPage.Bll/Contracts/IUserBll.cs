@@ -8,5 +8,6 @@ namespace MyBrokenPage.Bll.Contracts
         void CreateAccount(UserCredentialsModel userCredentialsModel);
         bool IsUsernameUsed(string username);
         bool ResetForgottenPassword(UserCredentialsModel userCredentialsModel);
+        UserModel GetByUsername(string username);
     }
 }

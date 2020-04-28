@@ -1,39 +1,56 @@
-﻿@model SearchViewModel
+﻿@model FeedPageViewModel
 @{ ViewBag.Title = PageTitles.Feed;}
 
 <h1>Feed</h1>
-<h4>Username: @ViewData[nameof(FeedController.UsernameViewData)]</h4>
-<h4>Role: @ViewData[nameof(FeedController.RoleViewData)]</h4>
-
-
-<form class="form-horizontal" method="get" asp-action="@Names.FeedControllerIndex" asp-controller="@Names.Feed">
-    <div class="form-group clearfix">
-        <div class=" col-md-8">
-            <label class="control-label"> Search</label>
-            <input asp-for="SearchInput" class="form-control" />
-
+<div class="row">
+    <form class="form-horizontal offset-1 col-5" method="get" asp-action="@Names.FeedControllerIndex" asp-controller="@Names.Feed">
+        <div class="form-group clearfix">
+            <div class=" col-12 text-center">
+                <label class="control-label"> Search</label>
+                <input asp-for="SearchObject.SearchInput" name="SearchInput" class="form-control" />
+            </div>
+            <div class="row search-div m-4">
+                <div class="col text-center">
+                    <input type="submit" class="btn btn-primary search-position" value="Search">
+                </div>
+            </div>
         </div>
-        <div class="col-md-2 search-div">
-            <input type="submit" class="btn btn-primary search-position" value="Search">
-        </div>
+    </form>
 
+    <div class="container col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <p>Default/Handled By Framework: @Model.SearchObject.SearchInput</p>
+                <p>Safe/Encoded: @Model.SearchObject.SearchSafe</p>
+                <p>Unsafe: @Html.Raw(Model.SearchObject.SearchInput)</p>
+                <p id="paragraph">
+                    Unsafe JS Function:
+                </p>
+            </div>
+        </div>
     </div>
-</form>
+</div>
+
+
 
 <div>
-    <p>Default/Handled By Framework: @Model.SearchInput</p>
-    <p>Safe/Encoded: @Model.SearchSafe</p>
-    <p>Unsafe:  @Html.Raw(Model.SearchInput)</p>
-    <p id="paragraph">
-        Unsafe JS Function:
-        
-    </p>
+    @foreach (var post in Model.Posts)
+    {
+        <div class="container-fluid">
+            <h2 class="h2">Posted by <em>@post.Username</em></h2>
+            <div class="card">
+                <div class="card-body">
+                    <p>@post.Content</p>
+                </div>
+            </div>
+        </div>
+    }
 </div>
 
 <script>
     window.onload = function () {
         let urlParams = new URLSearchParams(window.location.search);
-        let queryParam = urlParams.get('@nameof(Model.SearchInput)');
+        let queryParam = urlParams.get('@nameof(Model.SearchObject.SearchInput)');
         document.getElementById("paragraph").innerHTML += queryParam;
     }
 </script>

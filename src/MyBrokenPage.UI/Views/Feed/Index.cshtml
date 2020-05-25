@@ -31,13 +31,14 @@
     </div>
 </div>
 
-
-
 <div>
     @foreach (var post in Model.Posts)
     {
         <div class="container-fluid">
             <h2 class="h2">Posted by <em>@post.Username</em></h2>
+            <a asp-action="@Names.FeedControllerGetPost" asp-controller="@Names.Feed" asp-route-id="@post.Id">
+                <button>View more</button>
+            </a>
             <div class="card">
                 <div class="card-body">
                     <p>@post.Content</p>

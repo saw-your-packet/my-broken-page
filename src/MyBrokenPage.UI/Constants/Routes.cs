@@ -4,6 +4,7 @@
     {
         public const string HomeController = "";
         public const string HomeControllerIndex = "";
+        public const string HomeControllerCustomNotFound = "404";
 
         public const string AccountsController = "";
         public const string AccountsControllerLogin = "login";
@@ -14,5 +15,8 @@
 
         public const string FeedController = "feed";
         public const string FeedControllerIndex = "";
+        public const string FeedControllerDelete = "delete";
+        public const string FeedControllerAddPost = "";
+        public const string FeedControllerPost = "posts";
     }
 }

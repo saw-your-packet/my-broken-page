@@ -10,5 +10,7 @@ namespace MyBrokenPage.Bll.Contracts
         void Delete(int id, string username);
 
         void Add(PostModel post);
+
+        PostModel GetById(int id);
     }
 }

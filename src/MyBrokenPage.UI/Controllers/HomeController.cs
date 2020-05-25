@@ -11,5 +11,11 @@ namespace MyBrokenPage.UI.Controllers
         {
             return View();
         }
+
+        [HttpGet(Routes.HomeControllerCustomNotFound)]
+        public IActionResult CustomNotFound([FromQuery]string urlRedirect)
+        {
+            return View(new { url = urlRedirect});
+        }
     }
 }

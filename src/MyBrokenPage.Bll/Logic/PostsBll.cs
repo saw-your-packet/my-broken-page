@@ -51,5 +51,12 @@ namespace MyBrokenPage.Bll.Logic
 
             _postRepository.Add(post.ToPost(user.Id));
         }
+
+        public PostModel GetById(int id)
+        {
+            var post = _postRepository.GetById(id);
+
+            return post?.ToPostModel();
+        }
     }
 }

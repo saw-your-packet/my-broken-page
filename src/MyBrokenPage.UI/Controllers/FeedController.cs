@@ -38,8 +38,8 @@ namespace MyBrokenPage.UI.Controllers
             return View(new FeedPageViewModel { Posts = posts, SearchObject = searchViewModel });
         }
 
-        [Route("delete/{id}")]
-        public IActionResult Delete(int id)
+        [HttpGet(Routes.FeedControllerDelete)]
+        public IActionResult DeletePost([FromQuery]int id)
         {
             var username = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value;
             _postsBll.Delete(id, username);
@@ -47,14 +47,31 @@ namespace MyBrokenPage.UI.Controllers
             return NoContent();
         }
 
-        [HttpPost("")]
-        public IActionResult Add([FromForm] PostViewModel post)
+        [HttpPost(Routes.FeedControllerAddPost)]
+        public IActionResult AddPost([FromForm] PostViewModel post)
         {
             post.Username = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
             _postsBll.Add(post.ToModel());
 
             return Ok();
+        }
+
+        [HttpGet(Routes.FeedControllerPost)]
+        public IActionResult GetPost([FromQuery]int id)
+        {
+            var postModel = _postsBll.GetById(id);
+
+            if (postModel == null)
+            {
+                var secondRedirect = $"{this.Request.Scheme}://{this.Request.Host}/{Routes.FeedController}";
+
+                return RedirectToAction(Names.HomeControllerCustomNotFound, Names.Home, new { urlRedirect = secondRedirect });
+            }
+
+            var postViewModel = postModel.ToViewModel();
+
+            return View(postViewModel);
         }
     }
 }

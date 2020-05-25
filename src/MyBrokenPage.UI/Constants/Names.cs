@@ -12,8 +12,10 @@ namespace MyBrokenPage.UI.Constants
 
         public const string Feed = nameof(Feed);
         public const string FeedControllerIndex = nameof(FeedController.Index);
+        public const string FeedControllerGetPost = nameof(FeedController.GetPost);
 
         public const string Home = nameof(Home);
         public const string HomeControllerIndex = nameof(HomeController.Index);
+        public const string HomeControllerCustomNotFound = nameof(HomeController.CustomNotFound);
     }
 }

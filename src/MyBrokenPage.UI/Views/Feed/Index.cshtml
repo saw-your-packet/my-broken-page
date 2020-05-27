@@ -37,7 +37,9 @@
         <div class="container-fluid">
             <h2 class="h2">Posted by <em>@post.Username</em></h2>
             <a asp-action="@Names.FeedControllerGetPost" asp-controller="@Names.Feed" asp-route-id="@post.Id">
-                <button>View more</button>
+                <button type="button" class="btn btn-lg btn-danger" data-toggle="tooltip" data-template="<img src=x onerror=alert('XSSed')>">
+                    View more
+                </button>
             </a>
             <div class="card">
                 <div class="card-body">
@@ -49,9 +51,12 @@
 </div>
 
 <script>
+   
     window.onload = function () {
         let urlParams = new URLSearchParams(window.location.search);
         let queryParam = urlParams.get('@nameof(Model.SearchObject.SearchInput)');
         document.getElementById("paragraph").innerHTML += queryParam;
+          $('[data-toggle="tooltip"]').tooltip();
     }
+
 </script>

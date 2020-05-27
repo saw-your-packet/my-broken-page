@@ -11,7 +11,8 @@ namespace MyBrokenPage.Bll.Converters
             {
                 Id = post.Id,
                 Content = post.Content,
-                User = post.User.ToUserModel()
+                User = post.User.ToUserModel(),
+                Tooltip=post.TooltipTemplate
             };
         }
 
@@ -20,7 +21,8 @@ namespace MyBrokenPage.Bll.Converters
             return new Post
             {
                 Content = postModel.Content,
-                UserId = userId
+                UserId = userId,
+                TooltipTemplate=postModel.Tooltip
             };
         }
     }

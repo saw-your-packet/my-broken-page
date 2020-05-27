@@ -11,7 +11,8 @@ namespace MyBrokenPage.UI.Converters
             {
                 Id = postViewModel.Id,
                 Content = postViewModel.Content,
-                User = new UserModel { Username = postViewModel.Username }
+                User = new UserModel { Username = postViewModel.Username },
+                Tooltip=postViewModel.Tooltip
             };
         }
 
@@ -21,7 +22,8 @@ namespace MyBrokenPage.UI.Converters
             {
                 Id = postModel.Id,
                 Content = postModel.Content,
-                Username = postModel.User?.Username
+                Username = postModel.User?.Username,
+                Tooltip=postModel.Tooltip
             };
         }
     }

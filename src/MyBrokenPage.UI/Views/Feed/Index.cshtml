@@ -36,10 +36,11 @@
     {
         <div class="container-fluid">
             <h2 class="h2">Posted by <em>@post.Username</em></h2>
-            <a asp-action="@Names.FeedControllerGetPost" asp-controller="@Names.Feed" asp-route-id="@post.Id">
-                <button type="button" class="btn btn-lg btn-danger" data-toggle="tooltip" data-template="@post.Tooltip">
-                    View more
-                </button>
+            <a asp-action="@Names.FeedControllerGetPost" asp-controller="@Names.Feed" asp-route-id="@post.Id"
+               class="btn btn-lg btn-danger" data-toggle="tooltip"
+               data-template="@post.Tooltip"
+               data-placement="right" title="@post.Id">
+                View More
             </a>
             <div class="card">
                 <div class="card-body">
@@ -51,12 +52,13 @@
 </div>
 
 <script>
-   
+
     window.onload = function () {
         let urlParams = new URLSearchParams(window.location.search);
         let queryParam = urlParams.get('@nameof(Model.SearchObject.SearchInput)');
         document.getElementById("paragraph").innerHTML += queryParam;
-          $('[data-toggle="tooltip"]').tooltip();
+
+        $('[data-toggle="tooltip"]').tooltip();
     }
 
 </script>

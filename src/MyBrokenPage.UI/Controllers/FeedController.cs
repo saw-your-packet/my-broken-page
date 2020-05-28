@@ -46,6 +46,11 @@ namespace MyBrokenPage.UI.Controllers
 
             return NoContent();
         }
+        [HttpGet(Routes.FeedControllerAddPost)]
+        public IActionResult AddPost()
+        {
+            return View();
+        }
 
         [HttpPost(Routes.FeedControllerAddPost)]
         public IActionResult AddPost([FromForm] PostViewModel post)
@@ -54,7 +59,7 @@ namespace MyBrokenPage.UI.Controllers
 
             _postsBll.Add(post.ToModel());
 
-            return Ok();
+            return RedirectToAction(Names.FeedControllerIndex);
         }
 
         [HttpGet(Routes.FeedControllerPost)]

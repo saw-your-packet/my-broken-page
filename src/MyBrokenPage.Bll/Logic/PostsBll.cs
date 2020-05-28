@@ -50,6 +50,7 @@ namespace MyBrokenPage.Bll.Logic
             }
 
             _postRepository.Add(post.ToPost(user.Id));
+            _postRepository.SaveChanges();
         }
 
         public PostModel GetById(int id)

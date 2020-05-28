@@ -37,7 +37,7 @@
         <div class="container-fluid">
             <h2 class="h2">Posted by <em>@post.Username</em></h2>
             <a asp-action="@Names.FeedControllerGetPost" asp-controller="@Names.Feed" asp-route-id="@post.Id">
-                <button type="button" class="btn btn-lg btn-danger" data-toggle="tooltip" data-template="<img src=x onerror=alert('XSSed')>">
+                <button type="button" class="btn btn-lg btn-danger" data-toggle="tooltip" data-template="@post.Tooltip">
                     View more
                 </button>
             </a>

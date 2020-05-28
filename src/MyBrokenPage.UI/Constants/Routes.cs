@@ -16,7 +16,7 @@
         public const string FeedController = "feed";
         public const string FeedControllerIndex = "";
         public const string FeedControllerDelete = "delete";
-        public const string FeedControllerAddPost = "";
+        public const string FeedControllerAddPost = "add-post";
         public const string FeedControllerPost = "posts";
     }
 }

@@ -46,6 +46,7 @@ namespace MyBrokenPage.UI.Controllers
 
             return NoContent();
         }
+
         [HttpGet(Routes.FeedControllerAddPost)]
         public IActionResult AddPost()
         {

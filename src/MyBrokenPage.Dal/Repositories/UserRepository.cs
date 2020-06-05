@@ -77,7 +77,8 @@ namespace MyBrokenPage.Dal.Repositories
 
         public User GetUserByUsername(string username)
         {
-            return _entities.Where(user => user.Username == username)
+            return _entities.Include(u => u.Role)
+                            .Where(user => user.Username == username)
                             .FirstOrDefault();
         }
     }

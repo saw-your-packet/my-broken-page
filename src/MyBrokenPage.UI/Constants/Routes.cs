@@ -18,5 +18,9 @@
         public const string FeedControllerDelete = "delete";
         public const string FeedControllerAddPost = "add-post";
         public const string FeedControllerPost = "posts";
+
+        public const string UsersController = "users";
+        public const string UsersControllerMyProfile = "my-profile";
+        public const string UsersControllerUploadProfilePicture = "upload-profile-picture";
     }
 }

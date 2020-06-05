@@ -8,6 +8,8 @@ namespace MyBrokenPage.Models
 
         public string Username { get; set; }
 
+        public string ProfilePictureName { get; set; }
+
         public RoleModel Role { get; set; }
 
         public ICollection<UserSecurityAnswerModel> SecurityAnswers { get; set; }

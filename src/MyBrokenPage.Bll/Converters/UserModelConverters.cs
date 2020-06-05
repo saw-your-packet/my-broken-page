@@ -13,6 +13,7 @@ namespace MyBrokenPage.Bll.Converters
             {
                 Id = user.Id,
                 Username = user.Username,
+                ProfilePictureName = user.ProfilePictureName,
                 Role = user.Role.ToRoleModel()
             };
         }

@@ -50,7 +50,9 @@
 
         <ul class="nav navbar-nav flex-row justify-content-md-center justify-content-start flex-nowrap col-2">
             <li class="nav-item">
-                <span class="nav-link">Hi, @(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value ?? "Guest")</span>
+                <a asp-action="@Names.UsersControllerMyProfile" asp-controller="@Names.Users">
+                    <span class="nav-link">Hi, @(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value ?? "Guest")</span>
+                </a>
             </li>
 
             <li class="nav-item">

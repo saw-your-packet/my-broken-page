@@ -8,6 +8,7 @@ using MyBrokenPage.UI.Constants;
 using MyBrokenPage.UI.Converters;
 using MyBrokenPage.UI.ViewModels;
 using System;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
@@ -38,7 +39,7 @@ namespace MyBrokenPage.UI.Controllers
         [HttpPost(Routes.UsersControllerUploadProfilePicture)]
         public IActionResult UploadProfilePicture(UserProfileViewModel userProfileViewModel)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View("MyProfile", userProfileViewModel);
             }
@@ -55,10 +56,22 @@ namespace MyBrokenPage.UI.Controllers
 
             //TODO
             // make bll function for saving the image on /images/uploads and insert the name of the image in db
+            var imageName = userProfileViewModel.Image.FileName;
+            var username= User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
+            _userBll.AddProfilePictureName(username, imageName);
+            SaveImage(userProfileViewModel.Image); 
+            
             return RedirectToAction(Names.UsersControllerMyProfile);
         }
-
+        private void SaveImage(IFormFile formfile)
+        {
+            var path = GeneralConstants.UploadsRelativePath + formfile.FileName;
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                formfile.CopyTo(stream);
+            }
+        }
         private bool IsExtensionAllowed(IFormFile formFile)
         {
             var isExtensionAllowed = false;
@@ -86,7 +99,7 @@ namespace MyBrokenPage.UI.Controllers
                     break;
                 }
             }
-
+            
             return isExtensionAllowed;
         }
     }

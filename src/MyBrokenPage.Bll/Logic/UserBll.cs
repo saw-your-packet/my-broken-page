@@ -71,6 +71,17 @@ namespace MyBrokenPage.Bll.Logic
             _userRepository.SaveChanges();
         }
 
+        public void AddProfilePictureName(string username, string profilePiictureName)
+        {
+            var user = _userRepository.GetUserByUsername(username);
+            if ((user != null) || (profilePiictureName != null))
+            {
+                user.ProfilePictureName = profilePiictureName;
+            }
+            
+            _userRepository.Update(user);
+            _userRepository.SaveChanges();
+        }
         public bool IsUsernameUsed(string username)
         {
             return _userRepository.IsUsernameUsed(username);
@@ -111,5 +122,6 @@ namespace MyBrokenPage.Bll.Logic
             return _userRepository.GetUserByUsername(username)
                                   .ToUserModel();
         }
+
     }
 }

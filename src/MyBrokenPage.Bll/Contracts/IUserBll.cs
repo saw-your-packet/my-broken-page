@@ -9,5 +9,6 @@ namespace MyBrokenPage.Bll.Contracts
         bool IsUsernameUsed(string username);
         bool ResetForgottenPassword(UserCredentialsModel userCredentialsModel);
         UserModel GetByUsername(string username);
+        void AddProfilePictureName(string username, string profilePiictureName);
     }
 }

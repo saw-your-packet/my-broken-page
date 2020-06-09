@@ -11,6 +11,7 @@ namespace MyBrokenPage.Bll
             services.AddScoped<IUserBll, UserBll>();
             services.AddScoped<ISecurityQuestionBll, SecurityQuestionBll>();
             services.AddScoped<IPostsBll, PostsBll>();
+            services.AddScoped<IFileUploadHelper, FileUploadHelper>();
 
             return services;
         }

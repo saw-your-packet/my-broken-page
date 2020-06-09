@@ -1,9 +1,11 @@
 ﻿using FileTypeChecker;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using MyBrokenPage.Bll.Contracts;
+using MyBrokenPage.Models;
 using MyBrokenPage.UI.Constants;
 using MyBrokenPage.UI.Converters;
 using MyBrokenPage.UI.ViewModels;
@@ -20,10 +22,14 @@ namespace MyBrokenPage.UI.Controllers
     public class UsersController : Controller
     {
         private readonly IUserBll _userBll;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IFileUploadHelper _fileUploadHelper;
 
-        public UsersController(IUserBll userBll)
+        public UsersController(IUserBll userBll, IWebHostEnvironment webHostEnvironment, IFileUploadHelper fileUploadHelper)
         {
             _userBll = userBll;
+            _webHostEnvironment = webHostEnvironment;
+            _fileUploadHelper = fileUploadHelper;
         }
 
         [HttpGet(Routes.UsersControllerMyProfile)]
@@ -44,63 +50,30 @@ namespace MyBrokenPage.UI.Controllers
                 return View("MyProfile", userProfileViewModel);
             }
 
-            bool isAllowedMagicNumber = IsExtensionAllowed(userProfileViewModel.Image);
-            var extension = Regex.Match(userProfileViewModel.Image.FileName, "\\.\\w+$").Groups[0]?.Value;
-            bool isAllowedFileExtension = SupportedFileFormats.Extensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
-            bool isAllowedNugetFileChecker = FileTypeValidator.IsImage(userProfileViewModel.Image.OpenReadStream());
+            using var stream = userProfileViewModel.Image.OpenReadStream();
 
-            if (!isAllowedMagicNumber || !isAllowedFileExtension || !isAllowedNugetFileChecker)
+            bool checkMagicNumberOwnImpl = _fileUploadHelper.IsExtensionAllowed(
+                CheckExtensionMethodEnum.MagicNumberOwnImplementation, stream, userProfileViewModel.Image.FileName
+                );
+            bool checkFilename = _fileUploadHelper.IsExtensionAllowed(
+                CheckExtensionMethodEnum.ExtensionFromFileName, stream, userProfileViewModel.Image.FileName
+                );
+            bool checkNuget = _fileUploadHelper.IsExtensionAllowed(
+                CheckExtensionMethodEnum.FileTypeCheckerNuget, stream, userProfileViewModel.Image.FileName
+                );
+
+            if (!checkFilename)
             {
                 return BadRequest("File not supported");
             }
 
-            //TODO
-            // make bll function for saving the image on /images/uploads and insert the name of the image in db
             var imageName = userProfileViewModel.Image.FileName;
-            var username= User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var username = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
             _userBll.AddProfilePictureName(username, imageName);
-            SaveImage(userProfileViewModel.Image); 
-            
+            _fileUploadHelper.SaveImage(stream, $"{_webHostEnvironment.WebRootPath}/{GeneralConstants.UploadsRelativePath}/{imageName}");
+
             return RedirectToAction(Names.UsersControllerMyProfile);
-        }
-        private void SaveImage(IFormFile formfile)
-        {
-            var path = GeneralConstants.UploadsRelativePath + formfile.FileName;
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                formfile.CopyTo(stream);
-            }
-        }
-        private bool IsExtensionAllowed(IFormFile formFile)
-        {
-            var isExtensionAllowed = false;
-            var maxBytesToRead = SupportedFileFormats.FileSignatures.Max(fileSignature => fileSignature.Length);
-            byte[] buffer = new byte[maxBytesToRead];
-
-            using var stream = formFile.OpenReadStream();
-            stream.Read(buffer, 0, maxBytesToRead);
-
-            foreach (var fileSignature in SupportedFileFormats.FileSignatures)
-            {
-                isExtensionAllowed = true;
-
-                for (int i = 0; i < fileSignature.Length; i++)
-                {
-                    if (fileSignature[i] != buffer[i])
-                    {
-                        isExtensionAllowed = false;
-                        break;
-                    }
-                }
-
-                if (isExtensionAllowed)
-                {
-                    break;
-                }
-            }
-            
-            return isExtensionAllowed;
         }
     }
 }

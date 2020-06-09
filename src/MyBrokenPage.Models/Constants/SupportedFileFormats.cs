@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MyBrokenPage.UI.Constants
+namespace MyBrokenPage.Models.Constants
 {
     public class SupportedFileFormats
     {

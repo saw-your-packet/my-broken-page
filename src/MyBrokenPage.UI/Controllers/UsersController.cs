@@ -53,6 +53,9 @@ namespace MyBrokenPage.UI.Controllers
                 return BadRequest("File not supported");
             }
 
+            //TODO
+            // make bll function for saving the image on /images/uploads and insert the name of the image in db
+
             return RedirectToAction(Names.UsersControllerMyProfile);
         }
 

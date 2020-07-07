@@ -1,7 +1,5 @@
-﻿using FileTypeChecker;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using MyBrokenPage.Bll.Contracts;
@@ -9,11 +7,8 @@ using MyBrokenPage.Models;
 using MyBrokenPage.UI.Constants;
 using MyBrokenPage.UI.Converters;
 using MyBrokenPage.UI.ViewModels;
-using System;
-using System.IO;
 using System.Linq;
 using System.Security.Claims;
-using System.Text.RegularExpressions;
 
 namespace MyBrokenPage.UI.Controllers
 {
@@ -23,9 +18,9 @@ namespace MyBrokenPage.UI.Controllers
     {
         private readonly IUserBll _userBll;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        private readonly IFileUploadHelper _fileUploadHelper;
+        private readonly IFileManagementHelper _fileUploadHelper;
 
-        public UsersController(IUserBll userBll, IWebHostEnvironment webHostEnvironment, IFileUploadHelper fileUploadHelper)
+        public UsersController(IUserBll userBll, IWebHostEnvironment webHostEnvironment, IFileManagementHelper fileUploadHelper)
         {
             _userBll = userBll;
             _webHostEnvironment = webHostEnvironment;

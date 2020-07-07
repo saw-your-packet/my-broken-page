@@ -1,0 +1,27 @@
+﻿@model string
+
+<p>@Model</p>
+
+<h3 class="h3">Your personal drive with pictures</h3>
+<p>You can:</p>
+<ul>
+    <li>Download a photo by providing its name</li>
+    <li>Upload a image or a zip with multiple images to be stored in your personal folder</li>
+</ul>
+
+<div class="row">
+    <div class="col-5 card text-center mt-5">
+        <form class="form-vertical mt-3" asp-action="@Routes.FilesControllerDownloadImage" method="get">
+            <input class="form-control m-2" name="fileName" placeholder="image.jpg" />
+            <input class="btn btn-primary col-8" type="submit" value="Download" />
+        </form>
+    </div>
+
+    <div class="offset-2 col-5 card text-center mt-5">
+        <form class="form-vertical m-3" asp-action="@Routes.FilesControllerUploadZip" method="post" enctype="multipart/form-data">
+            <label for="zipFile m-2">Select zip to upload</label>
+            <input class="form-control-file m-2" name="file" type="file" />
+            <input class="btn btn-primary m-2 col-8" type="submit" value="Upload" />
+        </form>
+    </div>
+</div>

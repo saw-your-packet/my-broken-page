@@ -1,15 +1,18 @@
 ﻿using FileTypeChecker;
+using Ionic.Zip;
 using MyBrokenPage.Bll.Contracts;
+using MyBrokenPage.Bll.Exceptions;
 using MyBrokenPage.Models;
 using MyBrokenPage.Models.Constants;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace MyBrokenPage.Bll.Logic
 {
-    public class FileUploadHelper : IFileUploadHelper
+    public class FileManagementHelper : IFileManagementHelper
     {
         public bool IsExtensionAllowed(CheckExtensionMethodEnum checkExtensionMethodEnum, Stream stream, string filename)
         {
@@ -43,6 +46,34 @@ namespace MyBrokenPage.Bll.Logic
             using var writeStream = new FileStream(fullPath, FileMode.Create);
 
             stream.CopyTo(writeStream);
+        }
+
+        public byte[] DownloadImage(string fullPath)
+        {
+            try
+            {
+                var file = File.ReadAllBytes(fullPath);
+
+                return file;
+            }
+            catch (Exception)
+            {
+                throw new ExceptionResourceNotFound($"File not on disk or can't be accessed: {fullPath}");
+            }
+        }
+
+        public void UploadZip(string basePath, Stream zipStream)
+        {
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            var zipFile = ZipFile.Read(zipStream);
+
+            if(Directory.Exists(basePath) == false)
+            {
+                Directory.CreateDirectory(basePath);
+            }
+
+            zipFile.ExtractAll(basePath);
         }
 
         private bool CheckByOwnImplementation(Stream stream)

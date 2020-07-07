@@ -22,5 +22,10 @@
         public const string UsersController = "users";
         public const string UsersControllerMyProfile = "my-profile";
         public const string UsersControllerUploadProfilePicture = "upload-profile-picture";
+
+        public const string FilesController = "files";
+        public const string FilesControllerIndex = "";
+        public const string FilesControllerDownloadImage = "download";
+        public const string FilesControllerUploadZip = "upload";
     }
 }

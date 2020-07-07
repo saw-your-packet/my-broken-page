@@ -13,7 +13,7 @@ namespace MyBrokenPage.UI.ViewModels
         public string Role { get; set; }
 
         [Required]
-        //[AllowImageOnly]
+        [AllowImageOnly]
         public IFormFile Image { get; set; }
     }
 }

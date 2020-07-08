@@ -68,12 +68,28 @@ namespace MyBrokenPage.Bll.Logic
 
             var zipFile = ZipFile.Read(zipStream);
 
-            if(Directory.Exists(basePath) == false)
+            if (Directory.Exists(basePath) == false)
             {
                 Directory.CreateDirectory(basePath);
             }
 
             zipFile.ExtractAll(basePath);
+        }
+
+        public FolderModel GetFolderModel(string userDirectoryPath)
+        {
+            if (Directory.Exists(userDirectoryPath) == false)
+            {
+                return new FolderModel { Name = "Not found" };
+            }
+
+            var folderModel = new FolderModel
+            {
+                Name =  Path.GetFileName(userDirectoryPath),
+                Files = Directory.EnumerateFiles(userDirectoryPath).Select(file => Path.GetFileName(file))
+            };
+
+            return folderModel;
         }
 
         private bool CheckByOwnImplementation(Stream stream)

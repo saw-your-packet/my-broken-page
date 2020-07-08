@@ -28,7 +28,11 @@ namespace MyBrokenPage.UI.Controllers
         [HttpGet(Routes.FilesControllerIndex)]
         public IActionResult Index()
         {
-            return View();
+            var username = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var fullPath = Path.Combine(_webHostEnvironment.WebRootPath, "users-storage", username);
+            var folderModel = _fileManagementHelper.GetFolderModel(fullPath);
+
+            return View(folderModel);
         }
 
         [HttpGet(Routes.FilesControllerDownloadImage)]
@@ -36,7 +40,7 @@ namespace MyBrokenPage.UI.Controllers
         {
             if (string.IsNullOrEmpty(fileName))
             {
-                return View();
+                return RedirectToAction(Names.HomeControllerCustomNotFound, Names.Home);
             }
 
             var username = User.FindFirst(ClaimTypes.NameIdentifier).Value;

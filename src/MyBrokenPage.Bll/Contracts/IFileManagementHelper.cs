@@ -12,5 +12,7 @@ namespace MyBrokenPage.Bll.Contracts
         byte[] DownloadImage(string fullPath);
 
         void UploadZip(string basePath, Stream zipStream);
+
+        FolderModel GetFolderModel(string username);
     }
 }

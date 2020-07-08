@@ -21,5 +21,8 @@ namespace MyBrokenPage.UI.Constants
         public const string Users = "Users";
         public const string UsersControllerMyProfile = nameof(UsersController.MyProfile);
         public const string UsersControllerUploadProfilePicture = nameof(UsersController.UploadProfilePicture);
+
+        public const string Files = "Files";
+        public const string FilesControllerDownload = nameof(FilesController.DownloadImage);
     }
 }

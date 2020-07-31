@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyBrokenPage.Bll;
+using MyBrokenPage.Common;
 using MyBrokenPage.Dal.Extensions;
 using MyBrokenPage.UI.Extensions;
 
@@ -21,6 +22,8 @@ namespace MyBrokenPage.UI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<ConfigurationManager>();
+
             var connectionString = Configuration.GetConnectionString("MyBrokenPageDB");
             services.AddMyBrokenPageDal(connectionString);
 

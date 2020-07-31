@@ -1,17 +1,16 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using MyBrokenPage.Dal.Contracts;
-using MyBrokenPage.Dal.Models;
-using System;
+﻿using System;
 using System.Data;
 using System.Linq;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using MyBrokenPage.Dal.Models;
+using MyBrokenPage.Dal.Contracts;
 
 namespace MyBrokenPage.Dal.Repositories
 {
     public class UserRepository : GenericRepository<User>, IUserRepository
     {
         public UserRepository(MyBrokenPageContext myBrokenPageContext) : base(myBrokenPageContext) { }
-
 
         public User GetUserByCredentials(string username, string password)
         {
@@ -27,15 +26,15 @@ namespace MyBrokenPage.Dal.Repositories
                 var storedProcedureResult = _entities.FromSqlRaw("GetByCredentials @username, @password", parameters)
                                                      .ToList()
                                                      .FirstOrDefault();
-              
+
                 var storedProcedureResult2 = _entities.FromSqlInterpolated($"GetByCredentials {username}, {password}")
                                                       .ToList()
                                                       .FirstOrDefault();
-              
+
                 var storedProcedureResult3 = _entities.FromSqlRaw("GetByCredentialsVuln @username, @password", parameters)
                                                      .ToList()
                                                      .FirstOrDefault();
-                
+
                 var storedProcedureQuery = $"GetByCredentials {username}, {password}";
                 var storedProcedureResult4 = _entities.FromSqlRaw(storedProcedureQuery)
                                                       .ToList()
@@ -52,7 +51,7 @@ namespace MyBrokenPage.Dal.Repositories
                 var queryFromResult = _entities.FromSqlInterpolated(query)
                                                .Include(x => x.Role)
                                                .FirstOrDefault();
-               
+
                 var query1 = "SELECT * FROM dbo.Users WHERE Username = @username and Password = @password";
                 var queryResultResult2 = _entities.FromSqlRaw(query1, parameters)
                                                   .Include(x => x.Role)

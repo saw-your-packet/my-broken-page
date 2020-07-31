@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using MyBrokenPage.Bll.Contracts;
 using MyBrokenPage.UI.Converters;
 using MyBrokenPage.UI.Constants;
-using MyBrokenPage.Bll.Contracts;
 using MyBrokenPage.UI.ViewModels;
 using MyBrokenPage.UI.Helpers;
-using System.Threading.Tasks;
-using System.Linq;
 
 namespace MyBrokenPage.UI.Controllers
 {
@@ -39,7 +39,6 @@ namespace MyBrokenPage.UI.Controllers
             }
 
             var userLoginModel = userLoginViewModel.ToUserLoginModel();
-
             var userModel = _userBll.RetrieveUserByCredentials(userLoginModel);
 
             if (userModel == null)
@@ -134,7 +133,7 @@ namespace MyBrokenPage.UI.Controllers
         {
             if (!_userBll.IsUsernameUsed(username))
             {
-                return Json($"Username {username} not found.");
+                return NotFound($"Username {username} not found.");
             }
 
             return Json(true);

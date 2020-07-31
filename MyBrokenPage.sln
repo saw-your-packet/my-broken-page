@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBrokenPage.UI", "src\MyBr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBrokenPage.Dal.Design", "src\MyBrokenPage.Dal.Design\MyBrokenPage.Dal.Design.csproj", "{9AB7DECE-3789-4E34-A4DC-8702E71B5CBE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyBrokenPage.Common", "MyBrokenPage.Common\MyBrokenPage.Common.csproj", "{445F28C6-60D4-4007-A2F1-4F813D7FAB45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{9AB7DECE-3789-4E34-A4DC-8702E71B5CBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AB7DECE-3789-4E34-A4DC-8702E71B5CBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AB7DECE-3789-4E34-A4DC-8702E71B5CBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{445F28C6-60D4-4007-A2F1-4F813D7FAB45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{445F28C6-60D4-4007-A2F1-4F813D7FAB45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{445F28C6-60D4-4007-A2F1-4F813D7FAB45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{445F28C6-60D4-4007-A2F1-4F813D7FAB45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

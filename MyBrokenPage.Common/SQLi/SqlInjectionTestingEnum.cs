@@ -3,7 +3,12 @@
     public enum SqlInjectionTestingEnum
     {
         QueryStringConcatenation,
-        QueryParameterized,
-
+        Linq,
+        QueryInterpolated,
+        QueryParameterizedFromSqlRaw,
+        StoredProcedureSecureParameterized,
+        StoredProcedureSecureInterpolated,
+        StoredProcedureSecureFromSqlRaw,
+        StoredProcedureInsecureParameterized
     }
 }

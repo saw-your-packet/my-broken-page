@@ -2,33 +2,12 @@
 {
     public class DatabaseConfigurations
     {
-        public string DataSource { get; set; }
+        public const string DatabaseName = "MyBrokenPage";
 
-        public string DatabaseName { get; set; }
+        public const string SecureProcedureName = "GetByCredentials";
 
-        public bool IntegratedSecurity { get; set; }
+        public const string VulnerableProcedureName = "GetByCredentialsVuln";
 
-        public int ConnectTimeout { get; set; }
-
-        public bool Encrypt { get; set; }
-
-        public bool TrustServerCertificate { get; set; }
-
-        public string ApplicationIntent { get; set; }
-
-        public bool MultiSubnetFailover { get; set; }
-
-        public string SecureProcedureName { get; set; }
-
-        public string VulnerableProcedureName { get; set; }
-
-        public SqlInjectionTestingEnum SelectedSqlInjectionMethod { get; set; } = SqlInjectionTestingEnum.QueryStringConcatenation;
-
-        public string GetConnectionString()
-        {
-            var connectionString = $"Data Source={DataSource};Initial Catalog={DatabaseName};Integrated Security={IntegratedSecurity};Connect Timeout={ConnectTimeout};Encrypt={Encrypt};TrustServerCertificate={TrustServerCertificate};ApplicationIntent={ApplicationIntent};MultiSubnetFailover={MultiSubnetFailover}";
-
-            return connectionString;
-        }
+        public static SqlInjectionTestingEnum SelectedSqlInjectionMethod { get; set; } = SqlInjectionTestingEnum.QueryStringConcatenation;
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using MyBrokenPage.Dal.Models;
 using MyBrokenPage.Dal.Contracts;
+using MyBrokenPage.Common.SQLi;
 
 namespace MyBrokenPage.Dal.Repositories
 {
@@ -14,56 +15,66 @@ namespace MyBrokenPage.Dal.Repositories
 
         public User GetUserByCredentials(string username, string password)
         {
+            string query;
+            User result;
+
             var parameters = new[]
                 {
                 new SqlParameter("@username", SqlDbType.NVarChar){Direction = ParameterDirection.Input, Value = username},
                 new SqlParameter("@password", SqlDbType.NVarChar){Direction = ParameterDirection.Input, Value = password}
             };
 
-            bool isStoredprocedure = false;
-            if (isStoredprocedure)
+            switch (DatabaseConfigurations.SelectedSqlInjectionMethod)
             {
-                var storedProcedureResult = _entities.FromSqlRaw("GetByCredentials @username, @password", parameters)
-                                                     .ToList()
-                                                     .FirstOrDefault();
-
-                var storedProcedureResult2 = _entities.FromSqlInterpolated($"GetByCredentials {username}, {password}")
-                                                      .ToList()
-                                                      .FirstOrDefault();
-
-                var storedProcedureResult3 = _entities.FromSqlRaw("GetByCredentialsVuln @username, @password", parameters)
-                                                     .ToList()
-                                                     .FirstOrDefault();
-
-                var storedProcedureQuery = $"GetByCredentials {username}, {password}";
-                var storedProcedureResult4 = _entities.FromSqlRaw(storedProcedureQuery)
-                                                      .ToList()
-                                                      .FirstOrDefault();
-
-                return storedProcedureResult;
+                case SqlInjectionTestingEnum.QueryStringConcatenation:
+                    query = $"SELECT * FROM dbo.Users WHERE Username = '{username}' and Password = '{password}'";
+                    result = _entities.FromSqlRaw(query)
+                                      .Include(x => x.Role)
+                                      .FirstOrDefault();
+                    break;
+                case SqlInjectionTestingEnum.Linq:
+                    result = _entities.Where(x => x.Username == username && x.Password == password)
+                                      .FirstOrDefault();
+                    break;
+                case SqlInjectionTestingEnum.QueryInterpolated:
+                    FormattableString formattableQuery = $"SELECT * FROM dbo.Users WHERE Username = {username} and Password = {password}";
+                    result = _entities.FromSqlInterpolated(formattableQuery)
+                                      .Include(x => x.Role)
+                                      .FirstOrDefault();
+                    break;
+                case SqlInjectionTestingEnum.QueryParameterizedFromSqlRaw:
+                    query = "SELECT * FROM dbo.Users WHERE Username = @username and Password = @password";
+                    result = _entities.FromSqlRaw(query, parameters)
+                                      .Include(x => x.Role)
+                                      .FirstOrDefault();
+                    break;
+                case SqlInjectionTestingEnum.StoredProcedureSecureParameterized:
+                    result = _entities.FromSqlRaw("GetByCredentials @username, @password", parameters)
+                                      .ToList()
+                                      .FirstOrDefault();
+                    break;
+                case SqlInjectionTestingEnum.StoredProcedureSecureInterpolated:
+                    result = _entities.FromSqlInterpolated($"GetByCredentials {username}, {password}")
+                                      .ToList()
+                                      .FirstOrDefault();
+                    break;
+                case SqlInjectionTestingEnum.StoredProcedureSecureFromSqlRaw:
+                    query = $"GetByCredentials {username}, {password}";
+                    result = _entities.FromSqlRaw(query)
+                                      .ToList()
+                                      .FirstOrDefault();
+                    break;
+                case SqlInjectionTestingEnum.StoredProcedureInsecureParameterized:
+                    result = _entities.FromSqlRaw("GetByCredentialsVuln @username, @password", parameters)
+                                      .ToList()
+                                      .FirstOrDefault();
+                    break;
+                default:
+                    result = null;
+                    break;
             }
-            else
-            {
-                var user = _entities.Where(x => x.Username == username && x.Password == password)
-                                    .FirstOrDefault();
 
-                FormattableString query = $"SELECT * FROM dbo.Users WHERE Username = {username} and Password = {password}";
-                var queryFromResult = _entities.FromSqlInterpolated(query)
-                                               .Include(x => x.Role)
-                                               .FirstOrDefault();
-
-                var query1 = "SELECT * FROM dbo.Users WHERE Username = @username and Password = @password";
-                var queryResultResult2 = _entities.FromSqlRaw(query1, parameters)
-                                                  .Include(x => x.Role)
-                                                  .FirstOrDefault();
-
-                var query2 = $"SELECT * FROM dbo.Users WHERE Username = '{username}' and Password = '{password}'";
-                var queryResultResult1 = _entities.FromSqlRaw(query2)
-                                                  .Include(x => x.Role)
-                                                  .FirstOrDefault();
-
-                return queryResultResult1;
-            }
+            return result;
         }
 
 

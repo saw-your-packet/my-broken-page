@@ -1,6 +1,6 @@
 ﻿namespace MyBrokenPage.Common.SQLi
 {
-    public class DatabaseConfigurations
+    public static class DatabaseConfigurations
     {
         public const string DatabaseName = "MyBrokenPage";
 

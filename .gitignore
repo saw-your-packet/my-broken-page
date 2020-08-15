@@ -268,3 +268,5 @@ __pycache__/
 # tools/
 
 src/MyBrokenPage.Dal.Design/Migrations/*
+/src/MyBrokenPage.UI/wwwroot/images/uploads
+/src/MyBrokenPage.UI/wwwroot/users-storage/*

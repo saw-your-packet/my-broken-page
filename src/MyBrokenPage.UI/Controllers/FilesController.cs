@@ -56,6 +56,11 @@ namespace MyBrokenPage.UI.Controllers
         [HttpPost(Routes.FilesControllerUploadZip)]
         public IActionResult UploadZip([AllowArchiveOnly]IFormFile file)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             var username = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var basePath = Path.Combine(_webHostEnvironment.WebRootPath, "users-storage", username);
 

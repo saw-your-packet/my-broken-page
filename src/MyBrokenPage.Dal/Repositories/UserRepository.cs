@@ -19,7 +19,7 @@ namespace MyBrokenPage.Dal.Repositories
             User result;
 
             var parameters = new[]
-                {
+            {
                 new SqlParameter("@username", SqlDbType.NVarChar){Direction = ParameterDirection.Input, Value = username},
                 new SqlParameter("@password", SqlDbType.NVarChar){Direction = ParameterDirection.Input, Value = password}
             };

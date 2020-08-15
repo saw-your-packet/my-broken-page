@@ -1,4 +1,4 @@
-﻿namespace MyBrokenPage.Common.SQLi
+﻿namespace MyBrokenPage.Common
 {
     public static class DatabaseConfigurations
     {
@@ -8,6 +8,6 @@
 
         public const string VulnerableProcedureName = "GetByCredentialsVuln";
 
-        public static SqlInjectionTestingEnum SelectedSqlInjectionMethod { get; set; } = SqlInjectionTestingEnum.QueryStringConcatenation;
+        internal static SqlInjectionTestingEnum SelectedSqlInjectionMethod { get; set; } = SqlInjectionTestingEnum.QueryStringConcatenation;
     }
 }

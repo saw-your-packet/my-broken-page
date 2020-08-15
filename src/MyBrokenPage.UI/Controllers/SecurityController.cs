@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
-using MyBrokenPage.Common.SQLi;
+using MyBrokenPage.Common;
 using MyBrokenPage.UI.Constants;
 
 namespace MyBrokenPage.UI.Controllers
@@ -10,14 +10,27 @@ namespace MyBrokenPage.UI.Controllers
     public class SecurityController : ControllerBase
     {
         [HttpPost(Routes.SecurityControllerSqlInjection)]
-        public IActionResult SqlInjectionMethod([FromForm][Required] SqlInjectionTestingEnum testingMethod)
+        public IActionResult SqlInjectionMethod([FromForm][Required] SqlInjectionTestingEnum method)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            DatabaseConfigurations.SelectedSqlInjectionMethod = testingMethod;
+            ConfigurationManager.SqlInjectionMethod = method;
+
+            return Ok();
+        }
+
+        [HttpPost(Routes.SecurityControllerXss)]
+        public IActionResult Xss([FromForm][Required] XssTestingEnum method)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            ConfigurationManager.XssMethod = method;
 
             return Ok();
         }

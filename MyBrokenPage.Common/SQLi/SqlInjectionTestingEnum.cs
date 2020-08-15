@@ -1,4 +1,4 @@
-﻿namespace MyBrokenPage.Common.SQLi
+﻿namespace MyBrokenPage.Common
 {
     public enum SqlInjectionTestingEnum
     {

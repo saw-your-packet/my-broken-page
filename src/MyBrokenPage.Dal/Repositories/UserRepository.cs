@@ -5,7 +5,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using MyBrokenPage.Dal.Models;
 using MyBrokenPage.Dal.Contracts;
-using MyBrokenPage.Common.SQLi;
+using MyBrokenPage.Common;
 
 namespace MyBrokenPage.Dal.Repositories
 {
@@ -24,7 +24,7 @@ namespace MyBrokenPage.Dal.Repositories
                 new SqlParameter("@password", SqlDbType.NVarChar){Direction = ParameterDirection.Input, Value = password}
             };
 
-            switch (DatabaseConfigurations.SelectedSqlInjectionMethod)
+            switch (ConfigurationManager.SqlInjectionMethod)
             {
                 case SqlInjectionTestingEnum.QueryStringConcatenation:
                     query = $"SELECT * FROM dbo.Users WHERE Username = '{username}' and Password = '{password}'";

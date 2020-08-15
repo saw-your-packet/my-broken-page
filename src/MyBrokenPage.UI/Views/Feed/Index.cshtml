@@ -11,7 +11,7 @@
         <div class="form-group clearfix">
             <div class=" col-12 text-center">
                 <label class="control-label"> Search</label>
-                <input asp-for="SearchObject.SearchInput" name="SearchInput" class="form-control" />
+                <input asp-for="FilterKeyword" name="@Names.FeedControllerIndexActionQueryKeyword" class="form-control" />
             </div>
             <div class="row search-div m-4">
                 <div class="col text-center">
@@ -27,12 +27,25 @@
                 <p class="ml-2 col-12 text-center">
                     <em>XSS testing for search query parameter</em>
                 </p>
-                <p>Default/Handled By Framework: @Model.SearchObject.SearchInput</p>
-                <p>Safe/Encoded on Back-end: @Model.SearchObject.SearchSafe</p>
-                <p>Unsafe with <em>@@Html.Raw()</em>: @Html.Raw(Model.SearchObject.SearchInput)</p>
-                <p id="paragraph">
-                    Unsafe JS Function (<em>innerHtml</em>):
-                </p>
+
+                @switch (ConfigurationManager.XssMethod)
+                {
+                    case XssTestingEnum.FrameworkHandled:
+                        <p>Default/Handled By Framework: @Model.FilterKeyword</p>
+                        break;
+                    case XssTestingEnum.Encoded:
+                        <p>Encoded on Back-end: @Model.FilterKeyword</p>
+                        break;
+                    case XssTestingEnum.Reflected:
+                        <p>Reflected by using <em>Html.Raw()</em>: @Html.Raw(Model.FilterKeyword)</p>
+                        break;
+                    case XssTestingEnum.DomBased:
+                        <p id="paragraph"> Unsafe JS Function (<em>innerHtml</em>): </p>
+                        break;
+                    default:
+                        break;
+                }
+
             </div>
         </div>
     </div>
@@ -59,11 +72,14 @@
 </div>
 
 <script>
-
     window.onload = function () {
         let urlParams = new URLSearchParams(window.location.search);
-        let queryParam = urlParams.get('@nameof(Model.SearchObject.SearchInput)');
-        document.getElementById("paragraph").innerHTML += queryParam;
+        let queryParam = urlParams.get('@Names.FeedControllerIndexActionQueryKeyword');
+        let paragraphElement = document.getElementById("paragraph");
+
+        if (paragraphElement) {
+            paragraphElement.innerHTML += queryParam;
+        }
 
         $('[data-toggle="tooltip"]').tooltip();
     }

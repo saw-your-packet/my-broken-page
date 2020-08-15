@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyBrokenPage.Bll.Contracts;
-using MyBrokenPage.Models;
+using MyBrokenPage.Common;
 using MyBrokenPage.UI.Constants;
 using MyBrokenPage.UI.Converters;
 using MyBrokenPage.UI.ViewModels;
@@ -25,21 +25,26 @@ namespace MyBrokenPage.UI.Controllers
         }
 
         [HttpGet(Routes.FeedControllerIndex)]
-        public IActionResult Index([FromQuery]SearchViewModel searchViewModel)
+        public IActionResult Index([FromQuery] string keyword)
         {
-            var posts = _postsBll.GetAll(searchViewModel.SearchInput)
+            keyword ??= string.Empty;
+            var posts = _postsBll.GetAll(keyword)
                                  .Select(p => p.ToViewModel());
 
-            if (searchViewModel?.SearchInput != null)
+            switch (ConfigurationManager.XssMethod)
             {
-                searchViewModel.SearchSafe = _htmlEncoder.Encode(searchViewModel.SearchInput);
+                case XssTestingEnum.Encoded:
+                    keyword = _htmlEncoder.Encode(keyword);
+                    break;
+                default:
+                    break;
             }
 
-            return View(new FeedPageViewModel { Posts = posts, SearchObject = searchViewModel });
+            return View(new FeedPageViewModel { Posts = posts, FilterKeyword = keyword });
         }
 
         [HttpGet(Routes.FeedControllerDelete)]
-        public IActionResult DeletePost([FromQuery]int id)
+        public IActionResult DeletePost([FromQuery] int id)
         {
             var username = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value;
             _postsBll.Delete(id, username);
@@ -48,10 +53,7 @@ namespace MyBrokenPage.UI.Controllers
         }
 
         [HttpGet(Routes.FeedControllerAddPost)]
-        public IActionResult AddPost()
-        {
-            return View();
-        }
+        public IActionResult AddPost() => View();
 
         [HttpPost(Routes.FeedControllerAddPost)]
         public IActionResult AddPost([FromForm] PostViewModel post)
@@ -64,7 +66,7 @@ namespace MyBrokenPage.UI.Controllers
         }
 
         [HttpGet(Routes.FeedControllerPost)]
-        public IActionResult GetPost([FromQuery]int id)
+        public IActionResult GetPost([FromQuery] int id)
         {
             var postModel = _postsBll.GetById(id);
 

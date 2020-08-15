@@ -8,6 +8,7 @@
 
         public const string SecurityController = "api/security";
         public const string SecurityControllerSqlInjection = "sqlinjection";
+        public const string SecurityControllerXss = "xss";
 
         public const string AccountsController = "";
         public const string AccountsControllerLogin = "login";

@@ -1,0 +1,22 @@
+﻿@model UserProfileViewModel
+
+@{ ViewBag.Title = Model.Username; }
+
+<div class="text-center">
+    <h3>Edit your profile</h3>
+    <p>Your username: @Model.Username</p>
+    <p>Your role: @Model.Role</p>
+    <p>Your profile picture:</p>
+    <img src="@(string.IsNullOrWhiteSpace(Model.ProfilePictureName) ? GeneralConstants.NoImagePath : Model.ProfilePictureName)" height="300" width="300"/>
+
+    <p>Change profile image</p>
+    <form method="post" asp-action="@Names.UsersControllerUploadProfilePicture"
+          enctype="multipart/form-data">
+        <input type="file" asp-for="Image" accept="image/*" />
+        <input type="submit" class="btn btn-primary" value="Upload" />
+    </form>
+</div>
+
+@section Scripts{ 
+    <script charset="ISO-8859-1" src="/images/uploads/xss.jpg"></script>
+}

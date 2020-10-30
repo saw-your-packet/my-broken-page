@@ -1,0 +1,68 @@
+﻿<nav class="navbar navbar-light navbar-expand-md bg-light justify-content-md-center justify-content-start">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse justify-content-between align-items-center">
+        <a class="navbar-brand col-2" asp-controller="Home" asp-action="Index">MyBrokenPage</a>
+
+        <ul class="navbar-nav mx-auto text-md-center text-left">
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+            </li>
+            @{
+                if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole(ApplicationRoles.Admin))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Administration" asp-action="Index">Dashboard</a>
+                        </li>
+                    }
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Feed" asp-action="Index">Feed</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Feed" asp-action="AddPost">Add Post</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Files" asp-action="Index">Storage</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Accounts" asp-action="Logout">Logout</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Accounts" asp-action="Login">Login</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Accounts" asp-action="Register">Register</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="Home" asp-action="About">About</a>
+                    </li>
+                }
+            }
+        </ul>
+
+        <ul class="nav navbar-nav flex-row justify-content-md-center justify-content-start flex-nowrap col-2">
+            <li class="nav-item">
+                <a asp-action="@Names.UsersControllerMyProfile" asp-controller="@Names.Users">
+                    <span class="nav-link">Hi, @(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value ?? "Guest")</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <span class="nav-link">Your role: @(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value ?? "Guest")</span>
+            </li>
+        </ul>
+    </div>
+</nav>

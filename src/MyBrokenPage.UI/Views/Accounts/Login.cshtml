@@ -1,0 +1,51 @@
+﻿@model UserLoginViewModel
+@{ ViewBag.Title = PageTitles.Login;}
+<h1>Login</h1>
+
+<form role="form" method="post" class="form-horizontal" asp-action="Login" asp-controller="Accounts">
+    <div class="form-row my-2">
+        <label asp-for="Username" class="control-label col-2"></label>
+        <div class="col-4">
+            <input asp-for="Username" class="form-control" autofocus id="login-username-input" />
+            <span class="text-danger" asp-validation-for="Username"></span>
+        </div>
+    </div>
+    <div class="form-row my-2">
+        <label asp-for="Password" class="col-2 control-label"></label>
+        <div class="col-4">
+            <input asp-for="Password" type="password" class="form-control" id="login-password-input" />
+            <span class="text-danger" asp-validation-for="Password"></span>
+        </div>
+    </div>
+    <div class="form-row my-2">
+        <div class="col-2 offset-2">
+            <input type="submit" value="Login" class="btn btn-primary form-control" />
+        </div>
+    </div>
+</form>
+
+<div class="row mb-2">
+    <div class="col-2 offset-2 text-center">
+        <a asp-action="@nameof(AccountsController.ForgotPassword)">Forgot password?</a>
+    </div>
+</div>
+
+<div id="smss-window">
+    <pre>
+    <code class="sql">SELECT * FROM Users
+WHERE Username = '' and Password = ''
+        </code>
+    </pre>
+</div>
+
+@section Stylesheets{
+    <link rel="stylesheet" href="~/lib/highlight.js/styles/vs.min.css">
+}
+
+@section Scripts{
+    <script src="~/lib/highlight.js/highlight.min.js"></script>
+    <script src="~/lib/highlight.js/languages/sql.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="~/js/constants.js"></script>
+    <script src="~/js/login.js"></script>
+}

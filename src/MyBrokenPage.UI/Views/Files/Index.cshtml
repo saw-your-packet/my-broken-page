@@ -1,0 +1,49 @@
+﻿@model FolderModel
+
+<h3 class="h3">Your personal drive</h3>
+<p>You can:</p>
+<ul>
+    <li>Download a photo by providing its name</li>
+    <li>Upload a zip with multiple files to be stored in your personal folder</li>
+</ul>
+<span class="gray">Note: we don't support subfolders</span>
+
+<div class="row">
+    <div class="col-8">
+        <div class="row card text-center">
+            <form class="form-vertical mt-3" asp-action="@Routes.FilesControllerDownloadImage" method="get">
+                <input class="form-control col-8 offset-2 mb-2" name="fileName" placeholder="image.jpg" />
+                <input class="btn btn-primary col-8 m-2" type="submit" value="Download" />
+            </form>
+        </div>
+
+        <div class="row card text-center mt-3">
+            <form class="form-vertical m-3" asp-action="@Routes.FilesControllerUploadZip" method="post" enctype="multipart/form-data">
+                <label for="zipFile">Select zip to upload</label>
+                <input class="form-control-file m-2 offset-2" name="file" type="file" />
+                <input class="btn btn-primary m-2 col-8" type="submit" value="Upload" />
+            </form>
+        </div>
+    </div>
+
+    <div class="card offset-1 col-3">
+        <p>Files from your storage</p>
+        <ul class="list-unstyled">
+            <li>
+                <img src="/images/iconfinder_icon-folder_211608.png" height="32" width="32" />
+                <span>/@Model.Name</span>
+                <ul class="list-unstyled">
+                    @foreach(var file in Model.Files)
+                    {
+                    <li class="offset-2">
+                        <a asp-action="@Names.FilesControllerDownload" asp-route-filename="@file">
+                            <img src="/images/image-file.png" height="32" width="32" />
+                            @file
+                        </a>
+                    </li>
+                    }
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

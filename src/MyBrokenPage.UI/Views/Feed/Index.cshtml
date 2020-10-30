@@ -1,0 +1,71 @@
+﻿@model FeedPageViewModel
+@{ ViewBag.Title = PageTitles.Feed;}
+
+<div class="row">
+    <div class="col-12 text-center">
+        <h2>Feed</h2>
+    </div>
+</div>
+<div class="row">
+    <form class="form-horizontal offset-1 col-5" method="get" asp-action="@Names.FeedControllerIndex" asp-controller="@Names.Feed">
+        <div class="form-group clearfix">
+            <div class=" col-12 text-center">
+                <label class="control-label"> Search</label>
+                <input asp-for="SearchObject.SearchInput" name="SearchInput" class="form-control" />
+            </div>
+            <div class="row search-div m-4">
+                <div class="col text-center">
+                    <input type="submit" class="btn btn-primary search-position" value="Search">
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="container col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <p class="ml-2 col-12 text-center">
+                    <em>XSS testing for search query parameter</em>
+                </p>
+                <p>Default/Handled By Framework: @Model.SearchObject.SearchInput</p>
+                <p>Safe/Encoded on Back-end: @Model.SearchObject.SearchSafe</p>
+                <p>Unsafe with <em>@@Html.Raw()</em>: @Html.Raw(Model.SearchObject.SearchInput)</p>
+                <p id="paragraph">
+                    Unsafe JS Function (<em>innerHtml</em>):
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    @foreach (var post in Model.Posts)
+    {
+        <div class="container-fluid">
+            <h2 class="h2">Posted by <em>@post.Username</em></h2>
+            <a asp-action="@Names.FeedControllerGetPost" asp-controller="@Names.Feed" asp-route-id="@post.Id"
+               class="btn btn-lg btn-danger mb-1" data-toggle="tooltip"
+               data-template="@post.Tooltip"
+               data-placement="right" title="@post.Id">
+                View More
+            </a>
+            <div class="card">
+                <div class="card-body">
+                    <p>@post.Content</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+
+    window.onload = function () {
+        let urlParams = new URLSearchParams(window.location.search);
+        let queryParam = urlParams.get('@nameof(Model.SearchObject.SearchInput)');
+        document.getElementById("paragraph").innerHTML += queryParam;
+
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+
+</script>

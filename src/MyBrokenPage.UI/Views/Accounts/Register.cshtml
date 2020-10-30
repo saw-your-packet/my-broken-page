@@ -1,0 +1,29 @@
+﻿@model UserCredentialsViewModel
+@{ ViewBag.Title = PageTitles.Register;}
+
+<form asp-action="@nameof(AccountsController.Register)" method="post">
+    <div class="form-group">
+        <label asp-for="Username" class="control-label"></label>
+        <input asp-for="Username" class="form-control" />
+        <span class="text-danger" asp-validation-for="Username"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password" class="control-label"></label>
+        <input asp-for="Password" class="form-control" />
+        <span class="text-danger" asp-validation-for="Password"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ConfirmPassword" class="control-label"></label>
+        <input asp-for="ConfirmPassword" class="form-control" />
+        <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+    </div>
+
+    <div class="form-group">
+        <partial name="_SecurityQuestions" model="Model.SecurityAnswers" />
+        <span class="text-danger" asp-validation-for="SecurityAnswers"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Register" class="btn btn-primary" />
+    </div>
+</form>

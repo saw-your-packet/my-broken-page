@@ -6,15 +6,14 @@
 - [Introduction](#introduction)
 
 - [Installation](#installation)
-  - [Ubuntu](#ubuntu)
-    - [Option A - Docker](#ubuntu-docker)
-    - [Option B - Manual](#ubuntu-manual)
-      - [Installing .NET Core 3.1 SDK](#ubuntu-install-dotnet-core)
-      - [Download front-end libraries](#ubuntu-front-end)
-      - [Database management](#ubuntu-database-management)
-        - [Installing SQL Server](#ubuntu-installing-sql-server)
-        - [Installing Entity Framework Core](#ubuntu-installing-ef-core)
-        - [Database initialization](#ubuntu-db-init)
+  - [Automated with Docker](#docker)
+  - [Ubuntu - Manual isntallation](#ubuntu)
+    - [Installing .NET Core 3.1 SDK](#ubuntu-install-dotnet-core)
+    - [Download front-end libraries](#ubuntu-front-end)
+    - [Database management](#ubuntu-database-management)
+      - [Installing SQL Server](#ubuntu-installing-sql-server)
+      - [Installing Entity Framework Core](#ubuntu-installing-ef-core)
+      - [Database initialization](#ubuntu-db-init)
 
 </details>
 
@@ -28,19 +27,13 @@ Disclaimer: If you're looking for a vulnerable application to learn more about w
 
 ## <a name="installation"></a> Installation
 
->TODO:
->
-> - scripts for automating the installation
->
-> - Windows guide
+### <a name="docker"></a> Docker
 
-### <a name="ubuntu"></a> Ubuntu
-
-*This was tested on Ubuntu 20.04. Depending on your Linux ditro you may need to adjust the below commands.*
-
-#### <a name="ubuntu-docker"></a> Option A - Docker
+*Tested on Windows 10 and Ubuntu 20.04*
 
 Make sure you have [docker](https://docs.docker.com/engine/install/) and [docker-compose](https://docs.docker.com/compose/install/) installed and run the next commands:
+
+Linux:
 
 ```bash
 cd my-broken-page
@@ -48,7 +41,17 @@ sudo docker-compose build
 sudo docker-compose up
 ```
 
+Windows:
+
+```bash
+cd my-broken-page
+git config core.autocrlf false # run this only if you cloned the repository
+docker-compose build
+docker-compose up
+```
+
 Go to `localhost:9080/login`, enter as username `admin' OR 1=1 --` and any password that's not blank. If you are logged in than everything worked fine.
+If the application works but the login failed then wait a few minutes, the migrations might not be done yet.
 
 If you got an error about the docker-compose version follow the next steps:
 
@@ -60,9 +63,11 @@ docker version
 
 Take a look at this [table](https://docs.docker.com/compose/compose-file/) and pick the docker-compose version associated with you docker engine version. Next, change the value of `version` from `docker-compose.yml` accordengly and try again to build and run the container.
 
-#### <a name="ubuntu-manual"></a> Option B - Manual
+### <a name="ubuntu"></a> Ubuntu manual installation
 
-##### <a name="ubuntu-install-dotnet-core"></a> Installing .NET Core 3.1 SDK
+*This was tested on Ubuntu 20.04. Depending on your Linux ditro you may need to adjust the below commands.*
+
+#### <a name="ubuntu-install-dotnet-core"></a> Installing .NET Core 3.1 SDK
 
 Dependencies:
 
@@ -105,7 +110,7 @@ Navigate to `localhost:5000`. If everything worked fine you should be prompted w
 
 If something didn't work, check the [Microsoft installation documentation](https://docs.microsoft.com/en-us/dotnet/core/install/linux-ubuntu)
 
-##### <a name="ubuntu-front-end"></a> Download front-end libraries
+#### <a name="ubuntu-front-end"></a> Download front-end libraries
 
 The project uses `libman` for installing and restoring front-end libraries. To install `libman` you need to run:
 
@@ -127,11 +132,11 @@ If something didn't work, check the [Microsoft documentation](https://docs.micro
 
 After it finishes, start the application with `dotnet run MyBrokenPage.UI.csproj` and check if the styling was applied.
 
-##### <a name="ubuntu-database-management"></a> Database management
+#### <a name="ubuntu-database-management"></a> Database management
 
 The application uses SQL Server and Entity Framework Core 3 for database operations.
 
-###### <a name="ubuntu-installing-sql-server"></a> Installing SQL Server
+##### <a name="ubuntu-installing-sql-server"></a> Installing SQL Server
 
 Add GPG keys:
 
@@ -226,7 +231,7 @@ If the service is not running you can start it with:
 systemctl start mssql-server
 ```
 
-###### <a name="ubuntu-installing-ef-core"></a> Installing Entity Framework Core
+##### <a name="ubuntu-installing-ef-core"></a> Installing Entity Framework Core
 
 The application uses this package as ORM.
 
@@ -244,7 +249,7 @@ dotnet ef
 
 Check the [Microsoft documentation](https://docs.microsoft.com/en-us/ef/core/miscellaneous/cli/dotnet#installing-the-tools) if you encountered any issues.
 
-###### <a name="ubuntu-db-init"></a> Database initialization
+##### <a name="ubuntu-db-init"></a> Database initialization
 
 Navigate to `MyBrokenPage.Dal.Design`. If you are currently in `MyBrokenPage.UI` you can run:
 

@@ -15,10 +15,10 @@ RUN dotnet restore "./MyBrokenPage.UI.csproj"
 
 WORKDIR /app/src/MyBrokenPage.UI
 RUN libman restore
-RUN dotnet build "MyBrokenPage.UI.csproj" -c Release -o /app/build
+RUN dotnet build "MyBrokenPage.UI.csproj" -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "MyBrokenPage.UI.csproj" -c Release -o /app/publish
+RUN dotnet publish "MyBrokenPage.UI.csproj" -o /app/publish
 
 FROM base as final
 WORKDIR /app

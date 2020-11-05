@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+  mybrokenpage-web:
+    image: mybrokenpage
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9080:80"
+    depends_on:
+      - migrations
+      - db
+  db:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+      SA_PASSWORD: "MyBr0kenPag3!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1443:1433"
+    depends_on: 
+      - migrations
+  migrations:
+    build:
+      context: .
+      dockerfile: Migrations.Dockerfile

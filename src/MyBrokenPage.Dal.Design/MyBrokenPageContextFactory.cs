@@ -8,7 +8,7 @@ namespace MyBrokenPage.Dal.Design
         public MyBrokenPageContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<MyBrokenPageContext>();
-            optionsBuilder.UseSqlServer(@"Data Source=(local);Initial Catalog=MyBrokenPage;Connect Timeout=30;Encrypt=False;Integrated Security=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False", b => b.MigrationsAssembly("MyBrokenPage.Dal.Design"));
+            optionsBuilder.UseSqlServer(@"Data Source=db;Initial Catalog=MyBrokenPage;User=sa;Password=MyBr0kenPag3!", b => b.MigrationsAssembly("MyBrokenPage.Dal.Design"));
 
             return new MyBrokenPageContext(optionsBuilder.Options);
         }

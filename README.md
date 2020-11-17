@@ -29,7 +29,7 @@ Disclaimer: If you're looking for a vulnerable application to learn more about w
 
 ### <a name="docker"></a> Docker
 
-*Tested on Windows 10 and Ubuntu 20.04*
+*Tested on Windows 10 and Ubuntu 20.04.*
 
 Make sure you have [docker](https://docs.docker.com/engine/install/) and [docker-compose](https://docs.docker.com/compose/install/) installed and run the next commands:
 

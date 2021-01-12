@@ -80,7 +80,7 @@ namespace MyBrokenPage.Bll.Logic
         {
             if (Directory.Exists(userDirectoryPath) == false)
             {
-                return new FolderModel { Name = "Not found" };
+                return new FolderModel { Name = "Upload file to create user storage" };
             }
 
             var folderModel = new FolderModel

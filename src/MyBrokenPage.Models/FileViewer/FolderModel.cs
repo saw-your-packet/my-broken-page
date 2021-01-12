@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 
 namespace MyBrokenPage.Models
 {
@@ -6,6 +7,6 @@ namespace MyBrokenPage.Models
     {
         public string Name { get; set; }
 
-        public IEnumerable<string> Files { get; set; }
+        public IEnumerable<string> Files { get; set; } = Enumerable.Empty<string>();
     }
 }

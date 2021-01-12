@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using MyBrokenPage.Bll;
 using MyBrokenPage.Dal.Extensions;
 using MyBrokenPage.UI.Extensions;
@@ -29,7 +27,7 @@ namespace MyBrokenPage.UI
             services.AddMyBrokenPageUI();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
             app.UseDeveloperExceptionPage();
 

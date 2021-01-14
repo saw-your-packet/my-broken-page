@@ -27,15 +27,26 @@
                 <p class="ml-2 col-12 text-center">
                     <em>XSS testing for search query parameter</em>
                 </p>
-                <p>Default/Handled By Framework: @Model.SearchObject.SearchInput</p>
-                <p>Safe/Encoded on Back-end: @Model.SearchObject.SearchSafe</p>
-                <p>Unsafe with <em>@@Html.Raw()</em>: @Html.Raw(Model.SearchObject.SearchInput)</p>
+                <p>Reflected by server with default encoding: @Model.SearchObject.SearchInput</p>
+                <p>Reflected by server with safe encoding: @Model.SearchObject.SearchSafe</p>
+                <p>Reflected by server with unsafe <em>@@Html.Raw()</em>: @Html.Raw(Model.SearchObject.SearchInput)</p>
                 <p id="paragraph">
-                    Unsafe JS Function (<em>innerHtml</em>):
+                    DOM XSS by unsafe JS function (<em>innerHtml</em>):
                 </p>
             </div>
         </div>
     </div>
+</div>
+
+<div>
+    <p>Server's response: </p>
+</div>
+<div id="html-window">
+    <pre>
+        <code class="html">
+            @@Html.Raw();
+        </code>
+    </pre>
 </div>
 
 <div>
@@ -58,14 +69,23 @@
     }
 </div>
 
-<script>
+@section Stylesheets{
+    <link rel="stylesheet" href="~/lib/highlight.js/styles/vs.min.css">
+}
 
-    window.onload = function () {
-        let urlParams = new URLSearchParams(window.location.search);
-        let queryParam = urlParams.get('@nameof(Model.SearchObject.SearchInput)');
-        document.getElementById("paragraph").innerHTML += queryParam;
+@section Scripts{
+    <script>
+        window.onload = function () {
+            let urlParams = new URLSearchParams(window.location.search);
+            let queryParam = urlParams.get('@nameof(Model.SearchObject.SearchInput)');
+            document.getElementById("paragraph").innerHTML += queryParam;
 
-        $('[data-toggle="tooltip"]').tooltip();
-    }
-
-</script>
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+    </script>
+    <script src="~/js/constants.js"></script>
+    <script src="~/js/feed.js"></script>
+    <script src="~/lib/highlight.js/highlight.min.js"></script>
+    <script src="~/lib/highlight.js/languages/html.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+}
